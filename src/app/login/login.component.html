@@ -1,30 +1,345 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
-</head>
-<body>        
-<div class="parent-container">
-    <div class="child-container">
 
-        <div class="number">
-            <label>Mobile Number</label>
-            <input type="email" [(ngModel)]="email" name="email" placeholder="Enter Your Phone Number">    
+<div class="auth-page">
+
+  <!-- BRAND / LEFT PANEL -->
+  <section class="auth-hero">
+    <div class="brand">
+      <div class="brand-logo">H</div>
+      <span>Hostel<span class="brand-highlight">Hub</span></span>
+    </div>
+
+    <div class="hero-content">
+      <div class="hero-badge">
+        <span class="hero-dot"></span>
+        FIND YOUR PERFECT SPACE
+      </div>
+
+      <h1>
+        Your next home<br />
+        <span>is waiting for you.</span>
+      </h1>
+
+      <p>
+        Explore comfortable hostels, private rooms and rental
+        properties. Find a place that feels like home.
+      </p>
+
+      <div class="hero-features">
+        <div class="feature">
+          <span class="feature-icon">⌂</span>
+          <div>
+            <strong>Find your perfect stay</strong>
+            <small>Hostels, rooms and rental homes</small>
+          </div>
         </div>
 
-        <div class="name">
-            <label>Password</label><br>
-            <input type="password" [(ngModel)]="password" name="password" placeholder="Enter Your Password">
+        <div class="feature">
+          <span class="feature-icon">✓</span>
+          <div>
+            <strong>Connect with owners</strong>
+            <small>Discover convenient living options</small>
+          </div>
         </div>
 
-        <div class="button">
-            <button type="button" (click)="loginUser()">Login</button>
+        <div class="feature">
+          <span class="feature-icon">♡</span>
+          <div>
+            <strong>Save your favourites</strong>
+            <small>Keep your preferred places together</small>
+          </div>
         </div>
+      </div>
+    </div>
+
+    <div class="hero-footer">
+      Made for your next chapter.
+    </div>
+  </section>
+
+  <!-- AUTHENTICATION PANEL -->
+  <main class="auth-main">
+    <div class="auth-card">
+
+      <!-- MOBILE BRAND -->
+      <div class="mobile-brand">
+        <div class="brand-logo">H</div>
+        <span>Hostel<span class="brand-highlight">Hub</span></span>
+      </div>
+
+      <!-- LOGIN / REGISTER TABS -->
+      <div class="auth-tabs" *ngIf="!otpMode">
+        <button
+          type="button"
+          [class.active]="isLogin"
+          (click)="switchMode(true)"
+          [disabled]="loading">
+          Login
+        </button>
+
+        <button
+          type="button"
+          [class.active]="!isLogin"
+          (click)="switchMode(false)"
+          [disabled]="loading">
+          Create account
+        </button>
+      </div>
+
+      <!-- LOGIN FORM -->
+      <ng-container *ngIf="isLogin && !otpMode">
+        <div class="form-heading">
+          <div class="heading-icon">👋</div>
+          <h2>Welcome back!</h2>
+          <p>Sign in to continue your journey.</p>
+        </div>
+
+        <form (ngSubmit)="loginUser()">
+
+          <div class="form-group">
+            <label for="loginEmail">Email address</label>
+
+            <div class="input-wrap">
+              <span class="input-icon">✉</span>
+              <input
+                id="loginEmail"
+                type="email"
+                placeholder="you@example.com"
+                [(ngModel)]="login.email"
+                name="loginEmail"
+                autocomplete="email"
+                required />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="loginPassword">Password</label>
+
+            <div class="input-wrap">
+              <span class="input-icon">♙</span>
+              <input
+                id="loginPassword"
+                type="password"
+                placeholder="Enter your password"
+                [(ngModel)]="login.password"
+                name="loginPassword"
+                autocomplete="current-password"
+                required />
+            </div>
+          </div>
+
+          <div class="forgot-row">
+            <span>Keep your account secure</span>
+            <a
+              href="javascript:void(0)"
+              (click)="$event.preventDefault()">
+              Forgot password?
+            </a>
+          </div>
+
+          <button
+            type="submit"
+            class="submit-btn"
+            [disabled]="loading">
+            <span>{{ loading ? 'Signing in...' : 'Login to your account' }}</span>
+            <span class="btn-arrow" *ngIf="!loading">→</span>
+          </button>
+
+          <div class="secure-note">
+            <span>🔒</span>
+            Your information is protected.
+          </div>
+        </form>
+      </ng-container>
+
+      <!-- REGISTRATION FORM -->
+      <ng-container *ngIf="!isLogin && !otpMode">
+        <div class="form-heading register-heading">
+          <div class="heading-icon">✨</div>
+          <h2>Create your account</h2>
+          <p>Join us and discover your next place to stay.</p>
+        </div>
+
+        <form (ngSubmit)="registerUser()">
+
+          <div class="form-group">
+            <label for="registerName">Full name</label>
+            <div class="input-wrap">
+              <span class="input-icon">♙</span>
+              <input
+                id="registerName"
+                type="text"
+                placeholder="Enter your full name"
+                [(ngModel)]="register.name"
+                name="registerName"
+                autocomplete="name"
+                required />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="registerEmail">Email address</label>
+            <div class="input-wrap">
+              <span class="input-icon">✉</span>
+              <input
+                id="registerEmail"
+                type="email"
+                placeholder="you@example.com"
+                [(ngModel)]="register.email"
+                name="registerEmail"
+                autocomplete="email"
+                required />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="registerMobile">Mobile number</label>
+            <div class="input-wrap">
+              <span class="input-icon">☎</span>
+              <input
+                id="registerMobile"
+                type="tel"
+                placeholder="Enter mobile number"
+                [(ngModel)]="register.mobile"
+                name="registerMobile"
+                autocomplete="tel"
+                required />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="registerPassword">Password</label>
+            <div class="input-wrap">
+              <span class="input-icon">♙</span>
+              <input
+                id="registerPassword"
+                type="password"
+                placeholder="Create a password"
+                [(ngModel)]="register.password"
+                name="registerPassword"
+                autocomplete="new-password"
+                required />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="registerConfirmPassword">Confirm password</label>
+            <div class="input-wrap">
+              <span class="input-icon">✓</span>
+              <input
+                id="registerConfirmPassword"
+                type="password"
+                placeholder="Re-enter your password"
+                [(ngModel)]="register.confirmPassword"
+                name="registerConfirmPassword"
+                autocomplete="new-password"
+                required />
+            </div>
+          </div>
+
+          <button
+            type="submit"
+            class="submit-btn"
+            [disabled]="loading">
+            <span>{{ loading ? 'Sending OTP...' : 'Create my account' }}</span>
+            <span class="btn-arrow" *ngIf="!loading">→</span>
+          </button>
+
+          <p class="terms-note">
+            By creating an account, you agree to our
+            <a routerLink="/terms&conditions">Terms</a>
+            and
+            <a routerLink="/privacy&policy">Privacy Policy</a>.
+          </p>
+        </form>
+      </ng-container>
+
+      <!-- OTP VERIFICATION -->
+      <section class="otp-section" *ngIf="otpMode">
+        <div class="otp-icon">✉</div>
+
+        <div class="form-heading">
+          <h2>
+            {{ otpPurpose === 'login'
+                ? 'Verify your login'
+                : 'Verify your account' }}
+          </h2>
+
+          <p>
+            Enter the 6-digit verification code sent to your email.
+          </p>
+        </div>
+
+        <div class="otp-recipient">
+          <span>Verification email</span>
+          <strong>
+            {{ otpPurpose === 'login' ? login.email : register.email }}
+          </strong>
+        </div>
+
+        <form (ngSubmit)="verifyOtp()">
+          <div class="form-group otp-input-group">
+            <label for="otpInput">Verification code</label>
+            <input
+              id="otpInput"
+              class="otp-input"
+              type="text"
+              name="otp"
+              [(ngModel)]="otp"
+              placeholder="000000"
+              inputmode="numeric"
+              maxlength="6"
+              pattern="[0-9]{6}"
+              autocomplete="one-time-code"
+              required />
+          </div>
+
+          <button
+            type="submit"
+            class="submit-btn"
+            [disabled]="loading">
+            <span>{{ loading ? 'Verifying...' : 'Verify and continue' }}</span>
+            <span class="btn-arrow" *ngIf="!loading">→</span>
+          </button>
+        </form>
+
+        <button
+          type="button"
+          class="resend-btn"
+          (click)="resendOtp()"
+          [disabled]="resendLoading">
+          {{ resendLoading ? 'Sending new code...' : 'Resend OTP' }}
+        </button>
+
+        <button
+          type="button"
+          class="back-btn"
+          (click)="backToForm()">
+          ← Back to form
+        </button>
+      </section>
+
+      <!-- BOTTOM SWITCH -->
+      <div class="auth-bottom" *ngIf="!otpMode">
+        <ng-container *ngIf="isLogin; else registerFooter">
+          Don't have an account?
+          <button type="button" (click)="switchMode(false)" [disabled]="loading">
+            Sign up
+          </button>
+        </ng-container>
+
+        <ng-template #registerFooter>
+          Already have an account?
+          <button type="button" (click)="switchMode(true)" [disabled]="loading">
+            Login
+          </button>
+        </ng-template>
+      </div>
 
     </div>
-</div>
 
-</body>
-</html>
+    <div class="page-copyright">
+      © 2026 HostelHub. All rights reserved.
+    </div>
+  </main>
+
+</div>

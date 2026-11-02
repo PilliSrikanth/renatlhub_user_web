@@ -1,0 +1,175 @@
+<div class="mobile-frame">
+
+  <!-- TOP SEARCH BAR -->
+  <div class="top-bar">
+    <div class="h-i" routerLink="/myprofile">
+      <i class="fa-solid fa-ellipsis-vertical"></i>
+    </div>
+
+    <div class="search">
+      <span>{{currentPlace}}</span>
+      <i class="fa fa-chevron-down"></i>
+    </div>
+
+    <div class="h-i" routerLink="/notification">
+      <i class="fa-regular fa-bell"></i>
+    </div>
+  </div>
+
+  <!--searchbar-->
+<div class="searchbar">
+  <input
+    type="text"
+    [(ngModel)]="searchText"
+    (input)="onSearch()"
+    placeholder="Search place..."
+  />
+
+  <button class="search-btn" (click)="onSearch()">
+    <i class="fa fa-search"></i>
+  </button>
+</div>
+
+
+
+
+  <!-- BANNER IMAGE -->
+<div class="banner">
+  <img [src]="bannerImages[currentIndex]" alt="Banner">
+
+  <!--<button class="prev" (click)="prevSlide()">❮</button>
+  <button class="next" (click)="nextSlide()">❯</button>-->
+
+  <div class="dots">
+    <span
+      *ngFor="let img of bannerImages; let i = index"
+      class="dot"
+      [class.active]="i === currentIndex"
+      (click)="goToSlide(i)">
+    </span>
+  </div>
+</div>
+  <!-- Category Title -->
+  <h3 class="Category">Category</h3>
+
+
+  <!-- Category Buttons -->
+  <div class="category-buttons">
+    <button *ngFor="let c of categories" (click)="filterByCategory(c)" [class.active]="selectedCategory==c">
+      {{ c | uppercase }}
+    </button>
+  </div>
+
+
+
+<!-- Nearby Section -->
+<div *ngIf="NearbyHostels && NearbyHostels.length > 0">
+
+  <!-- Nearby Title -->
+  <div class="section-title">
+    <h3>Nearby</h3>
+    <p>See all</p>
+  </div>
+
+  <!-- LIST CARDS -->
+  <div class="hostel-list">
+    <div
+      class="hostel-card"
+      *ngFor="let item of NearbyHostels"
+      (click)="openHostel(item._id)"
+    >
+      <img [src]="item.image" />
+      <div class="info">
+        <p>{{ item.name }}</p>
+        <span class="rating">{{ item.avgRating || 0 }}</span>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+
+<div *ngIf="topHostels && topHostels.length > 0">
+  <!-- top rating Title -->
+  <div class="section-title">
+    <h3>Top rating</h3>
+    <p>see all</p>
+  </div>
+
+  <!-- LIST CARDS -->
+  <div class="hostel-list">
+    <div class="hostel-card" *ngFor="let item of topHostels" (click)="openHostel(item._id)">
+      <img [src]="item.image" />
+      <div class="info">
+        <div class="name">
+        <p>{{item.name}}</p>
+        </div>
+        <div class="icons">
+          <div class="rating-row">
+            <i class="fa fa-star star"></i>
+            <span class="rating">{{ item.avgRating ? (item.avgRating | number:'1.1-1') : '0.0' }}</span>
+          </div>
+<div
+  class="heart"
+  (click)="toggleFavorite(item); $event.stopPropagation()">
+
+  <i
+    [ngClass]="isFavorite(item._id)
+      ? 'fa-solid fa-heart favorite'
+      : 'fa-regular fa-heart'">
+  </i>
+
+</div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="hostels && hostels.length > 0">
+  <!-- Nearby Title -->
+  <div class="section-title">
+    <h3>All</h3>
+    <!--<p>see all</p>-->
+  </div>
+
+  <!-- LIST CARDS -->
+  <div class="hostel-lists">
+    <div class="hostel-cards" *ngFor="let item of hostels" (click)="openHostel(item._id)">
+      <img [src]="item.image" />
+      <div class="info">
+
+        <div class="title-row">
+          <p>{{item.name}}</p>
+        </div>
+        <div class="icons">
+          <div class="rating-row">
+            <i class="fa fa-star star"></i>
+            <span class="rating">{{item.avgRating || 0}}</span>
+          </div>
+          <div
+  class="heart"
+  (click)="toggleFavorite(item); $event.stopPropagation()">
+
+  <i
+    [ngClass]="isFavorite(item._id)
+      ? 'fa-solid fa-heart favorite'
+      : 'fa-regular fa-heart'">
+  </i>
+
+</div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+  <div class="hostel">
+    <button class="hostel-btn" routerLink="/payment">
+      <i class="fa-solid fa-building-columns"></i> <!-- Hostel icon -->
+    </button>
+  </div>
+</div>

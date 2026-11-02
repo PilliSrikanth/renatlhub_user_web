@@ -1,114 +1,456 @@
-<div class="mobile-frame">
 
-  <!-- TOP SEARCH BAR -->
-<div class="top-bar">
-  <div class="h-i">
-    <i class="fa-solid fa-ellipsis-vertical"></i>
-  </div>
+<div class="home-page">
 
-  <div class="search">
-    <i class="fa fa-map-marker"></i>
-    <span>{{currentPlace}}</span>
-    <i class="fa fa-chevron-down"></i>
-  </div>
+  <!-- Sticky header -->
+  <header class="top-bar">
+    <button
+      type="button"
+      class="icon-button"
+      routerLink="/myprofile"
+      aria-label="My profile">
+      <i class="fa-solid fa-user"></i>
+    </button>
 
-  <div class="h-i" routerLink="/notification">
-    <i class="fa-regular fa-bell"></i>
-  </div>
-</div>
+    <div class="location-info">
+      <span class="location-label">YOUR LOCATION</span>
 
-<!--searchbar-->
-<div class="searchbar">
-  <input type="text" 
-         [(ngModel)]="searchText"
-         (input)="onSearch()" 
-         placeholder="search place...">
-</div>
+      <div class="location-value">
+        <i class="fa-solid fa-location-dot"></i>
+        <span>{{ currentPlace }}</span>
+        <i class="fa-solid fa-chevron-down location-chevron"></i>
+      </div>
 
+      <small class="location-error" *ngIf="locationError">
+        {{ locationError }}
+      </small>
+    </div>
 
+    <button
+      type="button"
+      class="icon-button"
+      (click)="getLocation()"
+      [disabled]="locationLoading"
+      aria-label="Refresh location"
+      title="Refresh location">
+      <i
+        class="fa-solid fa-location-crosshairs"
+        [class.fa-spin]="locationLoading">
+      </i>
+    </button>
 
+    <button
+      type="button"
+      class="icon-button notification-button"
+      routerLink="/notification"
+      aria-label="Notifications">
+      <i class="fa-regular fa-bell"></i>
+    </button>
+  </header>
 
-  <!-- BANNER IMAGE -->
-   <div class="banner">
-        <img src="https://media.istockphoto.com/id/814423752/photo/eye-of-model-with-colorful-art-make-up-close-up.jpg?s=1024x1024&w=is&k=20&c=NQtm4v1Uzp2luv-6f3qORcq9pDtz2H56p8g9Xix8cY0=" />
-   </div>
-  <!-- Category Title -->
-  <h3 class="Category">Category</h3>
+  <main class="home-content">
 
+    <!-- Welcome section -->
+    <section class="welcome-section">
+      <div>
+        <p class="eyebrow">FIND YOUR NEXT PLACE</p>
 
-  <!-- Category Buttons -->
-<div class="category-buttons">
-  <button *ngFor="let c of categories"
+        <h1>
+          A place you'll<br>
+          love to <span>call home.</span>
+        </h1>
+
+        <p class="welcome-subtitle">
+          Discover hostels, rooms and rental homes around you.
+        </p>
+
+        <p class="nearby-notice">
+          <i class="fa-solid fa-location-dot"></i>
+          Showing properties within 10 km of your location
+        </p>
+      </div>
+    </section>
+
+    <!-- Search -->
+    <div class="searchbar">
+      <i class="fa-solid fa-magnifying-glass search-leading-icon"></i>
+
+      <input
+        type="text"
+        [(ngModel)]="searchText"
+        (input)="onSearch()"
+        placeholder="Search nearby hostels, rooms or areas..."
+        aria-label="Search nearby properties">
+
+      <button
+        type="button"
+        class="search-btn"
+        (click)="onSearch()"
+        aria-label="Search">
+        <i class="fa-solid fa-arrow-right"></i>
+      </button>
+    </div>
+
+    <!-- Banner carousel -->
+    <section class="banner-section" *ngIf="bannerImages.length">
+      <div class="banner">
+        <img
+          [src]="bannerImages[currentIndex]"
+          alt="Discover your next stay">
+
+        <div class="banner-overlay">
+          <span class="banner-tag">YOUR NEXT STAY</span>
+
+          <h2>
+            Comfort starts<br>
+            with the right place.
+          </h2>
+
+          <p>Explore a place that fits your lifestyle.</p>
+        </div>
+
+        <div class="dots">
+          <button
+            type="button"
+            *ngFor="let img of bannerImages; let i = index"
+            class="dot"
+            [class.active]="i === currentIndex"
+            (click)="goToSlide(i)"
+            [attr.aria-label]="'Go to banner ' + (i + 1)">
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Quick actions -->
+    <section class="quick-actions">
+
+      <button
+        type="button"
+        class="quick-action"
+        routerLink="/rent-payment">
+        <span class="quick-icon rent-icon">
+          <i class="fa-solid fa-wallet"></i>
+        </span>
+
+        <span>
+          <strong>Pay Rent</strong>
+          <small>Manage your rent</small>
+        </span>
+
+        <i class="fa-solid fa-chevron-right action-arrow"></i>
+      </button>
+
+      <button
+        type="button"
+        class="quick-action"
+        routerLink="/payment">
+        <span class="quick-icon booking-icon">
+          <i class="fa-solid fa-building"></i>
+        </span>
+
+        <span>
+          <strong>My Bookings</strong>
+          <small>View your payments</small>
+        </span>
+
+        <i class="fa-solid fa-chevron-right action-arrow"></i>
+      </button>
+
+    </section>
+
+    <!-- Categories -->
+    <section class="content-section category-section">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">EXPLORE YOUR OPTIONS</p>
+          <h2>Find your space</h2>
+          <p class="section-description">
+            Choose the type of property you need.
+          </p>
+        </div>
+      </div>
+
+      <div class="category-buttons">
+        <button
+          type="button"
+          *ngFor="let c of categories"
           (click)="filterByCategory(c)"
-          [class.active]="selectedCategory==c">
-    {{ c | uppercase }}
-  </button>
+          [class.active]="selectedCategory === c">
+
+          <i
+            [ngClass]="c === 'boys'
+              ? 'fa-solid fa-person'
+              : c === 'girls'
+                ? 'fa-solid fa-person-dress'
+                : 'fa-solid fa-house'">
+          </i>
+
+          {{ c | uppercase }}
+        </button>
+      </div>
+    </section>
+
+    <!-- Location loading -->
+    <section
+      class="location-loading-state"
+      *ngIf="locationLoading && !locationDetected">
+      <i class="fa-solid fa-location-crosshairs fa-spin"></i>
+      <p>Finding properties near you...</p>
+    </section>
+
+    <!-- Nearby properties -->
+    <section
+      class="content-section"
+      *ngIf="locationDetected && NearbyHostels.length">
+
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">CLOSE TO YOU</p>
+          <h2>Nearby places</h2>
+          <p class="section-description">
+            The closest matching properties to your location.
+          </p>
+        </div>
+
+        <span class="section-note">
+          {{ NearbyHostels.length }} places
+        </span>
+      </div>
+
+      <div class="hostel-list">
+        <article
+          class="hostel-card nearby-card"
+          *ngFor="let item of NearbyHostels"
+          (click)="openHostel(item._id)">
+
+          <div class="property-image">
+            <img
+              [src]="item.image || item.images?.[0] || 'assets/no-image.png'"
+              [alt]="item.name"
+              loading="lazy">
+
+            <span class="image-label">NEARBY</span>
+
+            <button
+              type="button"
+              class="favorite-button"
+              (click)="toggleFavorite(item); $event.stopPropagation()"
+              [attr.aria-label]="isFavorite(item._id)
+                ? 'Remove from favorites'
+                : 'Add to favorites'">
+
+              <i
+                [ngClass]="isFavorite(item._id)
+                  ? 'fa-solid fa-heart favorite'
+                  : 'fa-regular fa-heart'">
+              </i>
+            </button>
+          </div>
+
+          <div class="property-info">
+            <h3>{{ item.name }}</h3>
+
+            <p class="property-area" *ngIf="item.area || item.address">
+              <i class="fa-solid fa-location-dot"></i>
+              {{ item.area || item.address }}
+            </p>
+
+            <div class="property-meta">
+              <span class="rating-pill">
+                <i class="fa-solid fa-star"></i>
+                {{ item.avgRating || item.rating
+                  ? ((item.avgRating || item.rating) | number:'1.1-1')
+                  : '0.0' }}
+              </span>
+
+              <span class="verified-label">Explore</span>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- Top-rated nearby properties -->
+    <section
+      class="content-section"
+      *ngIf="locationDetected && topHostels.length">
+
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">COMMUNITY FAVOURITES</p>
+          <h2>Top rated nearby</h2>
+          <p class="section-description">
+            Highly rated properties within your search radius.
+          </p>
+        </div>
+
+        <span class="section-note">Popular stays</span>
+      </div>
+
+      <div class="hostel-list">
+        <article
+          class="hostel-card"
+          *ngFor="let item of topHostels"
+          (click)="openHostel(item._id)">
+
+          <div class="property-image">
+            <img
+              [src]="item.image || item.images?.[0] || 'assets/no-image.png'"
+              [alt]="item.name"
+              loading="lazy">
+
+            <button
+              type="button"
+              class="favorite-button"
+              (click)="toggleFavorite(item); $event.stopPropagation()"
+              [attr.aria-label]="isFavorite(item._id)
+                ? 'Remove from favorites'
+                : 'Add to favorites'">
+
+              <i
+                [ngClass]="isFavorite(item._id)
+                  ? 'fa-solid fa-heart favorite'
+                  : 'fa-regular fa-heart'">
+              </i>
+            </button>
+          </div>
+
+          <div class="property-info">
+            <h3>{{ item.name }}</h3>
+
+            <p class="property-area" *ngIf="item.area || item.address">
+              <i class="fa-solid fa-location-dot"></i>
+              {{ item.area || item.address }}
+            </p>
+
+            <div class="property-meta">
+              <span class="rating-pill">
+                <i class="fa-solid fa-star"></i>
+                {{ item.avgRating || item.rating
+                  ? ((item.avgRating || item.rating) | number:'1.1-1')
+                  : '0.0' }}
+              </span>
+
+              <span class="verified-label">Top rated</span>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- All matching properties within 10 km -->
+    <section
+      class="content-section"
+      *ngIf="locationDetected && hostels.length">
+
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">EXPLORE MORE</p>
+          <h2>Properties near you</h2>
+          <p class="section-description">
+            {{ selectedCategory | uppercase }} properties within 10 km.
+          </p>
+        </div>
+
+        <span class="section-note">
+          {{ hostels.length }} places
+        </span>
+      </div>
+
+      <div class="property-grid">
+        <article
+          class="hostel-card grid-card"
+          *ngFor="let item of hostels"
+          (click)="openHostel(item._id)">
+
+          <div class="property-image">
+            <img
+              [src]="item.image || item.images?.[0] || 'assets/no-image.png'"
+              [alt]="item.name"
+              loading="lazy">
+
+            <button
+              type="button"
+              class="favorite-button"
+              (click)="toggleFavorite(item); $event.stopPropagation()"
+              [attr.aria-label]="isFavorite(item._id)
+                ? 'Remove from favorites'
+                : 'Add to favorites'">
+
+              <i
+                [ngClass]="isFavorite(item._id)
+                  ? 'fa-solid fa-heart favorite'
+                  : 'fa-regular fa-heart'">
+              </i>
+            </button>
+          </div>
+
+          <div class="property-info">
+            <h3>{{ item.name }}</h3>
+
+            <p class="property-area" *ngIf="item.area || item.address">
+              <i class="fa-solid fa-location-dot"></i>
+              {{ item.area || item.address }}
+            </p>
+
+            <div class="property-meta">
+              <span class="rating-pill">
+                <i class="fa-solid fa-star"></i>
+                {{ item.avgRating || item.rating
+                  ? ((item.avgRating || item.rating) | number:'1.1-1')
+                  : '0.0' }}
+              </span>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- Empty state -->
+    <section
+      class="empty-state"
+      *ngIf="!locationLoading
+        && hostels.length === 0
+        && NearbyHostels.length === 0
+        && topHostels.length === 0">
+
+      <div class="empty-icon">
+        <i class="fa-solid fa-house-circle-exclamation"></i>
+      </div>
+
+      <h3>
+        {{ locationDetected
+          ? 'No nearby properties found'
+          : 'Find properties near you' }}
+      </h3>
+
+      <p>
+        {{ locationDetected
+          ? 'No properties in this category were found within 10 km. Try another category or search term.'
+          : 'Allow location access to discover hostels, rooms and rental homes near you.' }}
+      </p>
+
+      <p *ngIf="locationError" class="location-error-message">
+        {{ locationError }}
+      </p>
+
+      <button
+        type="button"
+        class="search-btn location-action-button"
+        *ngIf="!locationDetected"
+        (click)="getLocation()"
+        [disabled]="locationLoading">
+
+        <i class="fa-solid fa-location-crosshairs"></i>
+        {{ locationLoading ? 'Detecting...' : 'Detect my location' }}
+      </button>
+    </section>
+
+    <!-- Footer -->
+    <footer class="home-footer">
+      <i class="fa-solid fa-heart"></i>
+      Find a place that feels like home.
+    </footer>
+
+  </main>
 </div>
-
-
-
-  <!-- Nearby Title -->
-   <div class="section-title">
-  <h3>Nearby</h3>
-  <p>see all</p>
-   </div>
-
-  <!-- LIST CARDS -->
-<div class="hostel-list">
-  <div class="hostel-card" 
-       *ngFor="let item of NearbyHostels" 
-       (click)="openHostel(item._id)">
-    <img [src]="item.image" />
-    <div class="info">
-      <p>{{item.name}}</p>
-      <span class="rating">{{item.rating}}</span>
-    </div>
-  </div>
-</div>
-
-
-    <!-- top rating Title -->
-   <div class="section-title">
-  <h3>Top rating</h3>
-  <p>see all</p>
-   </div>
-
-  <!-- LIST CARDS -->
-<div class="hostel-list">
-  <div class="hostel-card" 
-       *ngFor="let item of topHostels" 
-       (click)="openHostel(item._id)">
-    <img [src]="item.image" />
-    <div class="info">
-      <p>{{item.name}}</p>
-      <span class="rating">{{item.rating}}</span>
-    </div>
-  </div>
-</div>
-
-
-  <!-- Nearby Title -->
-   <div class="section-title">
-  <h3>All</h3>
-  <p>see all</p>
-   </div>
-
-  <!-- LIST CARDS -->
-<div class="hostel-list">
-  <div class="hostel-card" 
-       *ngFor="let item of hostels" 
-       (click)="openHostel(item._id)">
-    <img [src]="item.image" />
-    <div class="info">
-      <p>{{item.name}}</p>
-      <span class="rating">{{item.rating}}</span>
-    </div>
-  </div>
-</div>
-
-<div class="hostel">
-  <button class="hostel-btn" routerLink="/payment">
-    <i class="fa-solid fa-building-columns"></i> <!-- Hostel icon -->
-  </button>
-</div>
-  </div>

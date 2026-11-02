@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 })
 export class HostelService {
 
-  baseUrl = "https://hostel-backend-cfh3.onrender.com/api/hostels/";
+  baseUrl = "http://localhost:3200/api/hostels/";
 
   constructor(private http: HttpClient) { }
 
@@ -16,10 +16,10 @@ export class HostelService {
   }
 
   getHostelById(id: any): Observable<any> {
-    return this.http.get(this.baseUrl + "single/" + id);
+    return this.http.get(this.baseUrl + id);
   }
 
-  getTopRatedHostels(): Observable<any> {
+  getTopRated(): Observable<any> {
     return this.http.get(this.baseUrl + "top-rated");
   }
 

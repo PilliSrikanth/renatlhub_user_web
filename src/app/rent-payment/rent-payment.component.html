@@ -1,0 +1,33 @@
+
+<div class="rent-payment">
+  <h2>Pay Rent with Cosmic Pay</h2>
+
+  <label for="orderId">Rent Payment Order ID</label>
+  <input
+    id="orderId"
+    type="text"
+    [(ngModel)]="orderId"
+    placeholder="Enter your saved rent order ID"
+  />
+
+  <button
+    type="button"
+    [disabled]="loading"
+    (click)="payRent()">
+    {{ loading ? 'Please wait...' : 'Pay Rent' }}
+  </button>
+
+  <button
+    type="button"
+    (click)="verifyPayment()">
+    Verify Payment
+  </button>
+
+  <p *ngIf="paymentStatus">
+    Payment status: {{ paymentStatus }}
+  </p>
+
+  <p *ngIf="errorMessage">
+    {{ errorMessage }}
+  </p>
+</div>

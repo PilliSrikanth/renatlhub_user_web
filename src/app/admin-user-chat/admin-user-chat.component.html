@@ -1,0 +1,116 @@
+<div class="chat-page">
+
+  <!-- HEADER -->
+
+  <div class="chat-header">
+
+    <div class="admin-avatar">
+      A
+    </div>
+
+    <div class="admin-info">
+
+      <h3>Admin Support</h3>
+
+      <span>
+        🟢 Online
+      </span>
+
+    </div>
+
+  </div>
+
+
+  <!-- MESSAGES -->
+
+  <div
+    class="messages"
+    id="chatMessages"
+  >
+
+    <div
+      *ngIf="loading"
+      class="loading"
+    >
+      Loading messages...
+    </div>
+
+
+    <div
+      *ngIf="!loading && messages.length === 0"
+      class="empty"
+    >
+
+      <div class="empty-icon">
+        💬
+      </div>
+
+      <h3>
+        Start a conversation
+      </h3>
+
+      <p>
+        How can we help you?
+      </p>
+
+    </div>
+
+
+    <div
+      *ngFor="let m of messages"
+      class="message-row"
+      [class.my-message]="
+        m.senderType === 'user'
+      "
+      [class.admin-message]="
+        m.senderType === 'admin'
+      "
+    >
+
+      <div class="message-bubble">
+
+        <div class="message-text">
+          {{ m.message }}
+        </div>
+
+        <div class="message-time">
+
+          {{ m.createdAt | date:'shortTime' }}
+
+          <span
+            *ngIf="m.senderType === 'user'"
+          >
+            ✓
+          </span>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- INPUT -->
+
+  <div class="chat-input">
+
+    <textarea
+      [(ngModel)]="messageText"
+      (keydown)="onEnter($event)"
+      placeholder="Type your message..."
+      rows="1"
+    ></textarea>
+
+    <button
+      type="button"
+      (click)="sendMessage()"
+      [disabled]="!messageText.trim()"
+    >
+      ➤
+    </button>
+
+  </div>
+
+</div>

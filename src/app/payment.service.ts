@@ -18,7 +18,7 @@ export class PaymentService {
     getUserTransactions(userId: string): Observable<any> {
     return this.http.get(`${this.baseUrl}/user/${userId}`);
   }
-  private apiUrl = 'https://hostel-backend-cfh3.onrender.com/api/users'; // your Node backend base URL
+  private apiUrl = 'http://localhost:3200/api/users'; // your Node backend base URL
 
 
   // Get user details + transactions + hostel details

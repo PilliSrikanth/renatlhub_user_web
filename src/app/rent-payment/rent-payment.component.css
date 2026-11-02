@@ -1,0 +1,30 @@
+.rent-payment {
+  max-width: 450px;
+  margin: 30px auto;
+  padding: 24px;
+  text-align: center;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 18px #00000012;
+}
+
+.rent-payment img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  margin: 20px auto;
+}
+
+.rent-payment button {
+  padding: 12px 18px;
+  margin: 8px;
+  background: #ff4b00;
+  color: white;
+  border: 0;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.error {
+  color: #c62828;
+}

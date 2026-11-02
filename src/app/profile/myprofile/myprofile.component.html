@@ -1,0 +1,121 @@
+
+<!-- Top Navigation -->
+<div class="top-bar">
+  <button
+    class="header-btn back-btn"
+    type="button"
+    routerLink="/home"
+    aria-label="Back to profile"
+    title="Back to profile">
+    <i class="fa-solid fa-arrow-left"></i>
+  </button>
+
+  <div class="top-title">
+    <span>MY ACCOUNT</span>
+    <h2>Profile</h2>
+  </div>
+
+  <button
+    class="top-action"
+    type="button"
+    routerLink="/notification"
+    aria-label="Notifications">
+    <i class="fa-regular fa-bell"></i>
+  </button>
+</div>
+
+
+<div class="profile-page">
+
+  <!-- Profile Hero -->
+  <section class="profile-hero">
+    <div class="profile-image-wrapper">
+      <img
+        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTCl4k0hAnse_DpI5XU8zm7Xh5Q_NYijb6848-IGLTIJw&s=10"
+        alt="Profile picture"
+        class="profile-image"
+      />
+
+      <button class="edit-profile" aria-label="Edit profile" routerLink="/personaldetails">
+        <i class="fa-solid fa-pencil"></i>
+      </button>
+    </div>
+
+    <h1>My Profile</h1>
+    <p class="profile-subtitle">Manage your account and preferences</p>
+
+    <button class="edit-details-btn" routerLink="/personaldetails">
+      <i class="fa-regular fa-pen-to-square"></i>
+      Edit profile
+    </button>
+  </section>
+
+  <!-- Account Menu -->
+  <section class="menu-section">
+    <div class="section-heading">
+      <h3>Account settings</h3>
+      <span>Manage your account</span>
+    </div>
+
+    <div class="profile-menu">
+
+      <button class="profile-item" routerLink="/transaction">
+        <span class="item-icon transactions-icon">
+          <i class="fa-solid fa-indian-rupee-sign"></i>
+        </span>
+        <span class="item-content">
+          <strong>Transactions</strong>
+          <small>View your payments and history</small>
+        </span>
+        <i class="fa-solid fa-chevron-right arrow"></i>
+      </button>
+
+      <button class="profile-item" routerLink="/personaldetails">
+        <span class="item-icon personal-icon">
+          <i class="fa-solid fa-user"></i>
+        </span>
+        <span class="item-content">
+          <strong>Personal details</strong>
+          <small>Update your name and contact details</small>
+        </span>
+        <i class="fa-solid fa-chevron-right arrow"></i>
+      </button>
+
+      <button class="profile-item" routerLink="/favorate">
+        <span class="item-icon favorites-icon">
+          <i class="fa-regular fa-heart"></i>
+        </span>
+        <span class="item-content">
+          <strong>Favourites</strong>
+          <small>Your saved hostels and properties</small>
+        </span>
+        <i class="fa-solid fa-chevron-right arrow"></i>
+      </button>
+
+      <button class="profile-item" routerLink="/refer">
+        <span class="item-icon refer-icon">
+          <i class="fa-solid fa-share-nodes"></i>
+        </span>
+        <span class="item-content">
+          <strong>Refer and earn</strong>
+          <small>Invite friends to discover the app</small>
+        </span>
+        <i class="fa-solid fa-chevron-right arrow"></i>
+      </button>
+
+      <button class="profile-item logout-item" type="button">
+        <span class="item-icon logout-icon">
+          <i class="fa-solid fa-right-from-bracket"></i>
+        </span>
+        <span class="item-content">
+          <strong>Logout</strong>
+          <small>Sign out of your account</small>
+        </span>
+        <i class="fa-solid fa-chevron-right arrow"></i>
+      </button>
+
+    </div>
+  </section>
+
+  <p class="app-footer">Your space, your comfort.</p>
+</div>

@@ -12,6 +12,13 @@ import { PaymentResultComponent } from './payment-result/payment-result.componen
 import { TestBed } from '@angular/core/testing';
 import { TestComponent } from './test/test.component';
 import { PaymentComponent } from './payment/payment.component';
+import { MyprofileComponent } from './profile/myprofile/myprofile.component';
+import { TransactionComponent } from './profile/transaction/transaction.component';
+import { PersonalDetailsComponent } from './profile/personal-details/personal-details.component';
+import { ReferComponent } from './profile/refer/refer.component';
+import { FavortComponent } from './profile/favort/favort.component';
+import { AdminUserChatComponent } from './admin-user-chat/admin-user-chat.component';
+import { RentPaymentComponent } from './rent-payment/rent-payment.component';
 
 const routes: Routes = [
   { path: '', component:LoginComponent},
@@ -23,7 +30,17 @@ const routes: Routes = [
   { path:'notification', component:NotificationComponent},
   { path:'notification-details/:id', component:NotificationPageComponent},
   { path:'payment/:status/:txnid', component: PaymentResultComponent},
-  {path:'payment', component:PaymentComponent}
+  {path:'payment', component:PaymentComponent},
+  {path:'myprofile', component:MyprofileComponent},
+  {path:'personaldetails', component:PersonalDetailsComponent},
+  {path:'transaction', component:TransactionComponent},
+  {path:'refer',component:ReferComponent},
+  {path:'favorate', component:FavortComponent},
+  {
+  path: 'admin-user-chat/:adminId',
+  component: AdminUserChatComponent
+},
+  {path: 'rent-payment',  component: RentPaymentComponent}
 ];
 
 

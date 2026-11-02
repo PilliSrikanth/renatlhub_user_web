@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class RequestService {
-  private baseUrl = 'https://hostel-backend-cfh3.onrender.com/api/requests'; // ✅ your Express base route
+  private baseUrl = 'http://localhost:3200/api/requests'; // ✅ your Express base route
 
   constructor(private http: HttpClient) {}
 

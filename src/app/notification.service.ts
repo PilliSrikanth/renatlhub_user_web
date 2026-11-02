@@ -1,25 +1,105 @@
-// services/notification.service.ts
+
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import {
+  HttpClient,
+  HttpHeaders,
+  HttpParams
+} from '@angular/common/http';
 import { Observable } from 'rxjs';
 
-@Injectable({ providedIn: 'root' })
+export interface AppNotification {
+  _id: string;
+  recipientId?: string;
+  recipientType?: 'user' | 'owner' | 'admin';
+  senderId?: string;
+  senderType?: string;
+  title: string;
+  message: string;
+  type: string;
+  referenceId?: string;
+  referenceType?: string;
+  actionUrl?: string;
+  isRead: boolean;
+  createdAt: string;
+  updatedAt?: string;
+}
+
+export interface NotificationResponse {
+  success?: boolean;
+  message?: string;
+  notifications: AppNotification[];
+  total?: number;
+  unreadCount?: number;
+  page?: number;
+  totalPages?: number;
+}
+
+@Injectable({
+  providedIn: 'root'
+})
 export class NotificationService {
-  private apiUrl = 'https://hostel-backend-cfh3.onrender.com/api/notification';
+  private readonly apiUrl = 'http://localhost:3200/api/notification';
 
   constructor(private http: HttpClient) {}
 
-  getNotifications(userId: string): Observable<any> {
-    return this.http.get(`${this.apiUrl}/${userId}`);
+  private getHeaders(): HttpHeaders {
+    let headers = new HttpHeaders();
+    const token =
+      localStorage.getItem('token') ||
+      localStorage.getItem('userToken');
+      console.log({
+  tokenExists: !!localStorage.getItem('token'),
+  userTokenExists: !!localStorage.getItem('userToken')
+});
+
+    if (token) {
+      headers = headers.set('Authorization', `Bearer ${token}`);
+    }
+
+    return headers;
   }
 
-  markAsRead(notificationId: string): Observable<any> {
-    return this.http.put(`${this.apiUrl}/read/${notificationId}`, {});
+  getNotifications(
+    page: number = 1,
+    limit: number = 20
+  ): Observable<NotificationResponse> {
+    const params = new HttpParams()
+      .set('page', page.toString())
+      .set('limit', limit.toString());
+
+    return this.http.get<NotificationResponse>(this.apiUrl, {
+      headers: this.getHeaders(),
+      params
+    });
   }
 
-  deleteNotification(notificationId: string) {
-  return this.http.delete(`${this.apiUrl}/${notificationId}`);
-}
+  getUnreadCount(): Observable<any> {
+    return this.http.get<any>(
+      `${this.apiUrl}/unread-count`,
+      { headers: this.getHeaders() }
+    );
+  }
 
+  markAsRead(id: string): Observable<any> {
+    return this.http.patch<any>(
+      `${this.apiUrl}/${id}/read`,
+      {},
+      { headers: this.getHeaders() }
+    );
+  }
 
+  markAllAsRead(): Observable<any> {
+    return this.http.patch<any>(
+      `${this.apiUrl}/read-all`,
+      {},
+      { headers: this.getHeaders() }
+    );
+  }
+
+  deleteNotification(id: string): Observable<any> {
+    return this.http.delete<any>(
+      `${this.apiUrl}/${id}`,
+      { headers: this.getHeaders() }
+    );
+  }
 }

@@ -1,131 +1,486 @@
 <div class="hostel-page">
-  <!-- TOP SEARCH BAR -->
-  <div class="top-bar">
-    <div class="h-i"><i class="fa-solid fa-ellipsis-vertical"></i></div>
 
-    <div class="search">
-      <i class="fa fa-map-marker"></i>
-      <span>Chaitanyapuri</span>
-      <i class="fa fa-chevron-down"></i>
+  <!-- Sticky header -->
+  <header class="top-bar">
+    <button
+      class="header-icon"
+      type="button"
+      (click)="goBack()"
+      aria-label="Go back">
+      <i class="fa-solid fa-arrow-left"></i>
+    </button>
+
+    <div class="header-title">
+      <span>PROPERTY DETAILS</span>
+      <h2>{{ hostel?.name || 'Hostel Details' }}</h2>
     </div>
 
-    <div class="h-i"><i class="fa-regular fa-bell"></i></div>
-  </div>
+    <button
+      class="header-icon"
+      type="button"
+      routerLink="/notification"
+      aria-label="Notifications">
+      <i class="fa-regular fa-bell"></i>
+    </button>
+  </header>
 
-  <!-- Search bar -->
-  <div class="searchbar">
-    <input type="text" name="text" placeholder="search place..." />
-  </div>
+  <main class="page-content">
 
-  <div class="top-section">
-    <img class="main-img" [src]="mainImage" />
-  </div>
+    <!-- Promotional banner -->
+    <section class="banner" *ngIf="bannerImages.length">
+      <img
+        [src]="bannerImages[bannerIndex]"
+        alt="Property banner">
 
-  <h2 class="title">{{ hostel?.name }}</h2>
+      <div class="banner-shade"></div>
 
-  <!-- Room stats -->
-  <div class="stats" *ngIf="hostel">
-    <div class="stat" *ngIf="hostel.vacancy?.twoSharing > 0">
-      <div
-        class="icon-box"
-        [class.active]="selectedSharing === 'twoSharing'"
-        (click)="selectSharing('twoSharing')"
-      >
-        <img src="" alt="img1" />
-        <span>{{ hostel.roomSharing?.twoSharing }}</span>
+      <div class="banner-caption">
+        <span class="banner-tag">FIND YOUR SPACE</span>
+        <h3>Your next chapter<br>starts here.</h3>
       </div>
-      <p>2 - ({{ hostel.vacancy.twoSharing }})</p>
-    </div>
 
-    <div class="stat" *ngIf="hostel.vacancy?.threeSharing > 0">
-      <div
-        class="icon-box"
-        [class.active]="selectedSharing === 'threeSharing'"
-        (click)="selectSharing('threeSharing')"
-      >
-        <img src="" alt="img2" />
-        <span>{{ hostel.roomSharing?.threeSharing }}</span>
+      <div class="dots">
+        <button
+          *ngFor="let img of bannerImages; let i = index"
+          type="button"
+          class="dot"
+          [class.active]="i === bannerIndex"
+          (click)="goToSlide(i)"
+          [attr.aria-label]="'Show banner ' + (i + 1)">
+        </button>
       </div>
-      <p>3 - ({{ hostel.vacancy.threeSharing }})</p>
-    </div>
+    </section>
 
-    <div class="stat" *ngIf="hostel.vacancy?.fourSharing > 0">
-      <div
-        class="icon-box"
-        [class.active]="selectedSharing === 'fourSharing'"
-        (click)="selectSharing('fourSharing')"
-      >
-        <img src="" alt="img3" />
-        <span>{{ hostel.roomSharing?.fourSharing }}</span>
+    <!-- Property photo gallery -->
+    <section
+      class="gallery-section"
+      (click)="openCarousel()">
+
+      <div class="main-photo">
+        <img
+          class="main-img"
+          [src]="mainImage"
+          [alt]="hostel?.name || 'Hostel photo'"
+          (error)="setFallbackImage($event)">
+
+        <span class="photo-count">
+          <i class="fa-regular fa-images"></i>
+          View photos
+        </span>
       </div>
-      <p>4 - ({{ hostel.vacancy.fourSharing }})</p>
+    </section>
+
+    <!-- Image lightbox -->
+    <div
+      class="carousel-modal"
+      *ngIf="showCarousel"
+      (click)="closeCarousel()">
+
+      <button
+        class="close"
+        type="button"
+        (click)="closeCarousel(); $event.stopPropagation()"
+        aria-label="Close gallery">✕</button>
+
+      <button
+        class="nav prev"
+        type="button"
+        (click)="prevImage(); $event.stopPropagation()"
+        aria-label="Previous photo">❮</button>
+
+      <img
+        class="carousel-img"
+        [src]="mainImage"
+        alt="Property gallery image"
+        (error)="setFallbackImage($event)"
+        (click)="$event.stopPropagation()">
+
+      <button
+        class="nav next"
+        type="button"
+        (click)="nextImage(); $event.stopPropagation()"
+        aria-label="Next photo">❯</button>
+
+      <div class="counter">
+        {{ currentImages.length ? currentIndex + 1 : 0 }}
+        / {{ currentImages.length }}
+      </div>
     </div>
-  </div>
 
-  <!-- Actions -->
-  <button class="btn primary" [routerLink]="['/chat', hostel?.ownerId, hostel?._id]">
-    Message Now
-  </button>
+    <!-- Property introduction -->
+    <section class="property-intro">
+      <div class="property-heading">
+        <div>
+          <span class="section-kicker">YOUR POTENTIAL NEW HOME</span>
+          <h1>{{ hostel?.name || 'Property details' }}</h1>
+        </div>
 
-  <button class="btn enroll" (click)="sendRequest()">Request to enroll</button>
+        <div class="rating-summary">
+          <i class="fa-solid fa-star"></i>
+          <strong>
+            {{ hostel?.avgRating ? (hostel.avgRating | number:'1.1-1') : '0.0' }}
+          </strong>
+          <span>Rating</span>
+        </div>
+      </div>
 
-  <!-- Pay Now Button -->
-<!-- Pay Now Button --
-<button 
-  class="btn primary" 
-  (click)="BuyNowHandler()">
-  Pay Now (₹{{ getSelectedSharingPrice() }})
-</button>-->
+      <p class="intro-subtitle">
+        <i class="fa-solid fa-location-dot"></i>
+        Choose a room option that suits you.
+      </p>
+    </section>
 
+    <!-- HOSTEL ADDRESS AND MAP -->
+    <section class="content-card address-card">
 
-  <!-- Render PayU form -->
-  <div [innerHtml]="formHtml"></div>
+      <div class="address-heading">
+        <div class="address-heading-icon">
+          <i class="fa-solid fa-location-dot"></i>
+        </div>
 
-  <!-- Hostel Details -->
-  <div class="details-box">
-    <h3>Details</h3>
-    <p><b>Name:</b> {{ hostel?.ownerName }}</p>
-    <p><b>Contact:</b> {{ hostel?.ownerPhone }}</p>
-    <p><b>Location:</b> {{ hostel?.area }}</p>
-  </div>
+        <div>
+          <span class="section-kicker">FIND YOUR HOSTEL</span>
+          <h2>Exact location &amp; address</h2>
+        </div>
+      </div>
 
-  <div class="description">
-    <h3>Description:</h3>
-    <p>{{ hostel?.description }}</p>
-  </div>
+      <div class="address-information">
+        <i class="fa-solid fa-map-pin"></i>
 
-  <div class="features">
-    <h3>Key Features:</h3>
-    <ul>
-      <li>100 well-appointed deluxe and suite rooms</li>
-      <li>Signature restaurant…</li>
-    </ul>
-  </div>
+        <div>
+          <span class="address-label">Hostel address</span>
 
-  <!-- Reviews -->
-  <div class="ratings">
-    <h3>Reviews</h3>
+          <p *ngIf="getHostelAddress(); else addressUnavailable">
+            {{ getHostelAddress() }}
+          </p>
 
-    <div class="star-rating">
-      <span *ngFor="let star of [1,2,3,4,5]" 
+          <ng-template #addressUnavailable>
+            <p class="address-missing">
+              No address has been added by the property owner.
+            </p>
+          </ng-template>
+        </div>
+      </div>
+
+      <div
+        class="address-information"
+        *ngIf="getHostelCoordinates() as coords">
+
+        <i class="fa-solid fa-crosshairs"></i>
+
+        <div>
+          <span class="address-label">Saved GPS coordinates</span>
+          <p>{{ coords.lat }}, {{ coords.lng }}</p>
+        </div>
+      </div>
+
+      <div
+        class="map-container"
+        *ngIf="getHostelCoordinates() || getHostelAddress()">
+
+        <div class="map-top-label">
+          <i class="fa-solid fa-map-location-dot"></i>
+          {{ getHostelCoordinates() ? 'GPS location' : 'Address-based location' }}
+        </div>
+
+        <iframe
+          class="hostel-map"
+          [src]="getMapUrl()"
+          title="Hostel location map"
+          width="100%"
+          height="320"
+          loading="lazy"
+          allowfullscreen
+          referrerpolicy="no-referrer-when-downgrade">
+        </iframe>
+      </div>
+
+      <a
+        *ngIf="getHostelCoordinates() || getHostelAddress()"
+        class="directions-button"
+        [href]="getGoogleMapsUrl()"
+        target="_blank"
+        rel="noopener noreferrer">
+
+        <i class="fa-solid fa-diamond-turn-right"></i>
+        Get directions to hostel
+        <i class="fa-solid fa-arrow-up-right-from-square external-icon"></i>
+      </a>
+
+      <p
+        class="address-missing"
+        *ngIf="!getHostelCoordinates() && !getHostelAddress()">
+        The exact location is not saved yet. Add the hostel address and GPS coordinates in the owner dashboard.
+      </p>
+    </section>
+
+    <!-- Sharing options -->
+    <section
+      class="content-card"
+      *ngIf="hostel?.sharingMedia">
+
+      <div class="section-heading">
+        <div>
+          <span class="section-kicker">CHOOSE YOUR ROOM</span>
+          <h2>Sharing options</h2>
+        </div>
+      </div>
+
+      <div class="sharing-options">
+        <div
+          class="sharing-option"
+          *ngFor="let item of sharingTypes"
+          [hidden]="(hostel?.vacancy?.[item.dataKey] ?? 0) <= 0">
+
+          <button
+            type="button"
+            class="sharing-image"
+            [class.active]="selectedSharing === item.mediaKey"
+            (click)="selectSharing(item.mediaKey)"
+            [attr.aria-label]="'Select ' + item.label + ' sharing'">
+
+            <img
+              [src]="getSharingImage(item.mediaKey)"
+              [alt]="item.label + ' sharing'"
+              (error)="setFallbackImage($event)">
+
+            <span class="sharing-number">
+              {{ hostel?.roomSharing?.[item.dataKey] ?? 0 }}
+            </span>
+
+            <span
+              class="selected-check"
+              *ngIf="selectedSharing === item.mediaKey">
+              <i class="fa-solid fa-check"></i>
+            </span>
+          </button>
+
+          <strong>{{ item.label }} Sharing</strong>
+
+          <span class="vacancy-label">
+            {{ hostel?.vacancy?.[item.dataKey] ?? 0 }} available
+          </span>
+        </div>
+      </div>
+
+      <p class="selected-room" *ngIf="selectedSharing">
+        <i class="fa-solid fa-circle-check"></i>
+        Selected: {{ selectedSharing }} sharing
+      </p>
+    </section>
+
+    <!-- Services -->
+    <section
+      class="content-card"
+      *ngIf="hostel?.services?.length">
+
+      <div class="section-heading">
+        <div>
+          <span class="section-kicker">COMFORT AND CONVENIENCE</span>
+          <h2>What's included</h2>
+        </div>
+      </div>
+
+      <div class="services">
+        <div
+          class="service-item"
+          *ngFor="let service of hostel.services">
+
+          <i class="fa-solid fa-circle-check"></i>
+          <span>{{ service }}</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Owner information -->
+    <section class="content-card owner-card">
+
+      <div class="section-heading">
+        <div>
+          <span class="section-kicker">YOUR HOST</span>
+          <h2>Owner information</h2>
+        </div>
+
+        <span class="owner-badge">
+          <i class="fa-solid fa-shield-halved"></i>
+          Contact details
+        </span>
+      </div>
+
+      <div class="owner-profile">
+        <div class="owner-avatar">
+          <i class="fa-solid fa-user"></i>
+        </div>
+
+        <div class="owner-name">
+          <h3>{{ hostel?.ownerId?.name || 'Property owner' }}</h3>
+          <p>Property owner</p>
+        </div>
+      </div>
+
+      <div class="owner-detail">
+        <span class="detail-icon">
+          <i class="fa-regular fa-envelope"></i>
+        </span>
+
+        <div>
+          <small>Email address</small>
+          <p>{{ hostel?.ownerId?.email || 'Not provided' }}</p>
+        </div>
+      </div>
+
+      <div class="owner-detail">
+        <span class="detail-icon">
+          <i class="fa-solid fa-phone"></i>
+        </span>
+
+        <div>
+          <small>Contact number</small>
+          <p>{{ hostel?.ownerId?.mobile || 'Not provided' }}</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Reviews -->
+    <section class="content-card reviews-section">
+
+      <div class="section-heading">
+        <div>
+          <span class="section-kicker">SHARE YOUR EXPERIENCE</span>
+          <h2>Reviews and ratings</h2>
+        </div>
+
+        <div class="review-count">
+          <i class="fa-solid fa-star"></i>
+          {{ ratings.length }} reviews
+        </div>
+      </div>
+
+      <div class="write-review">
+        <h3>Rate this property</h3>
+        <p>Tell other users about your experience.</p>
+
+        <div
+          class="star-rating"
+          role="group"
+          aria-label="Select rating">
+
+          <button
+            type="button"
+            *ngFor="let star of [1, 2, 3, 4, 5]"
+            [class.filled]="star <= reviewRating"
             (click)="reviewRating = star"
-            [class.filled]="star <= reviewRating">
-        ★
-      </span>
-    </div>
-    <p>Your rating: {{ reviewRating }}⭐</p>
+            [attr.aria-label]="'Rate ' + star + ' stars'">
+            ★
+          </button>
+        </div>
 
-    <div class="rate-input">
-      <input [(ngModel)]="reviewText" placeholder="Write your review..." />
-      <button class="send primary small" (click)="submitReview()">Send</button>
-    </div>
+        <div class="review-input">
+          <input
+            type="text"
+            [(ngModel)]="reviewText"
+            placeholder="Write your review..."
+            aria-label="Write your review">
 
-    <div class="rating-card" *ngFor="let item of ratings">
-      <img [src]="item.userId?.image" [alt]="item.userId?.name" />
-      <div class="content">
-        <h4>{{ item.userId?.name || 'Anonymous' }} <span>{{ item.rating }}⭐</span></h4>
-        <p>{{ item.comment }}</p>
+          <button type="button" (click)="submitReview()">
+            Send <i class="fa-solid fa-paper-plane"></i>
+          </button>
+        </div>
       </div>
-    </div>
+
+      <div class="review-list">
+        <article
+          class="rating-card"
+          *ngFor="let r of (showAllComments ? ratings : (ratings | slice:0:3)); let i = index">
+
+          <div class="review-avatar">
+            {{ (r.userId?.name || 'U').charAt(0) | uppercase }}
+          </div>
+
+          <div class="review-body">
+            <div class="review-user">
+              <div>
+                <h4>{{ r.userId?.name || 'User' }}</h4>
+                <span>Property review</span>
+              </div>
+
+              <span class="review-score">
+                <i class="fa-solid fa-star"></i>
+                {{ r.rating }}
+              </span>
+            </div>
+
+            <p class="review-comment">
+              <ng-container *ngIf="expandedComment === i; else shortComment">
+                {{ r.comment }}
+
+                <button
+                  type="button"
+                  *ngIf="(r.comment || '').length > 80"
+                  class="show-more"
+                  (click)="toggleComment(i)">
+                  Show less
+                </button>
+              </ng-container>
+
+              <ng-template #shortComment>
+                {{ r.comment | slice:0:80 }}
+
+                <button
+                  type="button"
+                  *ngIf="(r.comment || '').length > 80"
+                  class="show-more"
+                  (click)="toggleComment(i)">
+                  ... Show more
+                </button>
+              </ng-template>
+            </p>
+          </div>
+        </article>
+      </div>
+
+      <div *ngIf="ratings.length === 0" class="no-reviews">
+        <i class="fa-regular fa-comments"></i>
+        <p>No reviews yet. Be the first to share your experience!</p>
+      </div>
+
+      <button
+        *ngIf="ratings.length > 3"
+        type="button"
+        class="show-all"
+        (click)="toggleComments()">
+
+        {{ showAllComments ? 'Show fewer reviews' : 'View all reviews' }}
+
+        <i
+          class="fa-solid"
+          [class.fa-chevron-up]="showAllComments"
+          [class.fa-chevron-down]="!showAllComments">
+        </i>
+      </button>
+    </section>
+
+    <div class="bottom-space"></div>
+  </main>
+
+  <!-- Sticky bottom actions -->
+  <div class="bottom-actions">
+    <button
+      type="button"
+      class="btn message-btn"
+      (click)="contactAdmin()">
+
+      <i class="fa-regular fa-message"></i>
+      Message now
+    </button>
+
+    <button
+      type="button"
+      class="btn enroll-btn"
+      (click)="sendRequest()">
+
+      Request to enroll
+      <i class="fa-solid fa-arrow-right"></i>
+    </button>
   </div>
 </div>

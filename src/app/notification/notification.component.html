@@ -1,15 +1,109 @@
-<div class="container">
-  <div class="header">
-    <button class="back-btn" (click)="goBack()">←</button>
-    <h2>Notifications</h2>
-    <div class="div"></div>
-  </div>
 
-  <div class="request-list">
-    <div class="request-card" *ngFor="let n of notifications" (click)="openNotification(n)">
-      <div class="avatar"></div>
-      <span class="hostel-name">{{ n.message }}</span>
-      <span class="arrow">›</span>
+<div class="notifications-page">
+  <header class="notifications-header">
+    <button type="button" class="back-btn"
+            routerLink="/myprofile" aria-label="Back to profile">
+      <i class="fa-solid fa-arrow-left"></i>
+    </button>
+
+    <div class="header-title">
+      <span>USER ACCOUNT</span>
+      <h1>My Notifications</h1>
     </div>
-  </div>
+
+    <div class="header-bell">
+      <i class="fa-regular fa-bell"></i>
+      <span *ngIf="unreadCount">{{ unreadCount > 99 ? '99+' : unreadCount }}</span>
+    </div>
+  </header>
+
+  <main class="notifications-content">
+    <section class="notification-banner">
+      <div class="banner-icon"><i class="fa-solid fa-bell"></i></div>
+      <div class="banner-copy">
+        <h2>Stay updated</h2>
+        <p>Bookings, rent payments and account activity.</p>
+      </div>
+      <div class="unread-total">
+        <strong>{{ unreadCount }}</strong>
+        <small>Unread</small>
+      </div>
+    </section>
+
+    <div class="list-heading">
+      <div>
+        <h2>Recent activity</h2>
+        <p>Your personal account updates</p>
+      </div>
+      <button type="button" class="mark-all-btn"
+              [disabled]="unreadCount === 0" (click)="markAllRead()">
+        Mark all read
+      </button>
+    </div>
+
+    <div class="filters">
+      <button type="button" [class.active]="filter === 'all'"
+              (click)="setFilter('all')">
+        All ({{ notifications.length }})
+      </button>
+      <button type="button" [class.active]="filter === 'unread'"
+              (click)="setFilter('unread')">
+        Unread ({{ unreadCount }})
+      </button>
+    </div>
+
+    <p *ngIf="errorMessage" class="error-message" role="alert">
+      {{ errorMessage }}
+      <button type="button" (click)="loadNotifications()">Retry</button>
+    </p>
+
+    <div *ngIf="loading" class="empty-state">Loading notifications...</div>
+
+    <section *ngIf="!loading && visibleNotifications.length"
+             class="notification-list">
+      <article *ngFor="let item of visibleNotifications; trackBy: trackById"
+               class="notification-card" [class.unread]="!item.isRead">
+
+        <button type="button" class="notification-main"
+                (click)="markRead(item)">
+          <span class="notification-icon">
+            <i class="fa-solid"
+               [ngClass]="{
+                 'fa-calendar-check': item.type === 'booking' || item.type === 'request',
+                 'fa-indian-rupee-sign': item.type === 'payment' || item.type === 'rent',
+                 'fa-comments': item.type === 'chat',
+                 'fa-star': item.type === 'review',
+                 'fa-bell': item.type === 'system' || item.type === 'subscription',
+                 'fa-house': item.type === 'property',
+                 'fa-user-check': item.type === 'owner_approval'
+               }"></i>
+          </span>
+
+          <span class="notification-info">
+            <strong>{{ item.title }}</strong>
+            <span>{{ item.message }}</span>
+            <small>
+              {{ item.createdAt | date:'medium' }}
+              · {{ item.type.replace('_', ' ') }}
+            </small>
+          </span>
+
+          <span *ngIf="!item.isRead" class="unread-dot"></span>
+        </button>
+
+        <button type="button" class="delete-btn"
+                aria-label="Delete notification"
+                (click)="deleteNotification(item)">
+          <i class="fa-regular fa-trash-can"></i>
+        </button>
+      </article>
+    </section>
+
+    <section *ngIf="!loading && !visibleNotifications.length"
+             class="empty-state">
+      <i class="fa-regular fa-bell-slash"></i>
+      <h3>{{ filter === 'unread' ? 'You are all caught up!' : 'No notifications yet' }}</h3>
+      <p>Your booking, payment and account updates will appear here.</p>
+    </section>
+  </main>
 </div>

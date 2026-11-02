@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class HostelPageService {
-  private baseUrl = 'https://hostel-backend-cfh3.onrender.com/api'; // Replace with your backend URL
+  private baseUrl = 'http://localhost:3200/api'; // Replace with your backend URL
   constructor(private http: HttpClient) {}
 
 

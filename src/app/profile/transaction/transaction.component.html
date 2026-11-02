@@ -1,0 +1,173 @@
+
+<div class="transaction-page">
+
+  <!-- HEADER -->
+  <header class="top-header">
+    <button
+      class="header-btn"
+      type="button"
+      routerLink="/myprofile"
+      aria-label="Back to profile">
+      <i class="fa-solid fa-arrow-left"></i>
+    </button>
+
+    <div class="header-title">
+      <span>YOUR ACCOUNT</span>
+      <h2>Transactions</h2>
+    </div>
+
+    <button
+      class="header-btn"
+      type="button"
+      routerLink="/notification"
+      aria-label="Notifications">
+      <i class="fa-regular fa-bell"></i>
+    </button>
+  </header>
+
+  <main class="transaction-content">
+
+    <!-- INTRO -->
+    <section class="page-intro">
+      <h1>Payment history</h1>
+      <p>Track your rent payments and transactions.</p>
+    </section>
+
+    <!-- SUMMARY CARD -->
+    <section class="summary-card">
+      <div class="summary-top">
+        <div>
+          <span class="summary-label">TRANSACTION RECORDS</span>
+          <h3>Your payments</h3>
+        </div>
+
+        <div class="summary-icon">
+          <i class="fa-solid fa-wallet"></i>
+        </div>
+      </div>
+
+      <div class="summary-bottom">
+        <div>
+          <span class="summary-caption">Payment activity</span>
+          <strong>Manage with confidence</strong>
+        </div>
+
+        <span class="secure-badge">
+          <i class="fa-solid fa-shield-halved"></i>
+          Secure
+        </span>
+      </div>
+    </section>
+
+    <!-- TRANSACTION TABS -->
+    <section class="history-section">
+
+      <div class="history-heading">
+        <div>
+          <h2>Recent activity</h2>
+          <p>Your transaction details</p>
+        </div>
+      </div>
+
+      <div class="tabs-box">
+        <button
+          type="button"
+          [class.active]="selectedTab === 'all'"
+          [attr.aria-pressed]="selectedTab === 'all'"
+          (click)="selectedTab = 'all'">
+          <i class="fa-solid fa-list"></i>
+          All transactions
+        </button>
+
+        <button
+          type="button"
+          [class.active]="selectedTab === 'latest'"
+          [attr.aria-pressed]="selectedTab === 'latest'"
+          (click)="selectedTab = 'latest'">
+          <i class="fa-regular fa-clock"></i>
+          Latest
+        </button>
+      </div>
+
+      <!-- TRANSACTION LIST -->
+      <div class="transaction-list">
+
+        <div
+          class="transaction-card"
+          *ngFor="let transaction of filteredTransactions">
+
+          <div class="user-section">
+
+            <div class="user-avatar">
+              {{
+                transaction.name
+                  ? transaction.name.charAt(0).toUpperCase()
+                  : 'T'
+              }}
+            </div>
+
+            <div class="user-details">
+              <div class="user-name">
+                {{ transaction.name || 'Transaction' }}
+              </div>
+
+              <div class="transaction-date">
+                <i class="fa-regular fa-calendar"></i>
+                {{ transaction.date }}
+              </div>
+            </div>
+
+          </div>
+
+          <div class="amount-section">
+            <div class="amount">
+              ₹{{ transaction.amount }}
+            </div>
+
+            <div class="payment-method" *ngIf="transaction.method">
+              <img
+                *ngIf="transaction.methodIcon"
+                [src]="transaction.methodIcon"
+                [alt]="transaction.method"
+                class="payment-icon">
+
+              <span>{{ transaction.method }}</span>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- EMPTY STATE -->
+        <div
+          class="empty-state"
+          *ngIf="!filteredTransactions || filteredTransactions.length === 0">
+
+          <div class="empty-icon">
+            <i class="fa-solid fa-receipt"></i>
+          </div>
+
+          <h3>No transactions yet</h3>
+          <p>Your payment history will appear here when transactions are available.</p>
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- FIXED PAYMENT ACTION -->
+  <div class="pay-action">
+    <button class="pay-now" type="button" (click)="payNow()">
+      <i class="fa-solid fa-lock"></i>
+      Pay Now
+      <i class="fa-solid fa-arrow-right pay-arrow"></i>
+    </button>
+
+    <span class="payment-caption">
+      <i class="fa-solid fa-shield-halved"></i>
+      Secure payment
+    </span>
+  </div>
+
+</div>

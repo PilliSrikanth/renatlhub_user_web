@@ -1,0 +1,271 @@
+
+<!-- Top Navigation -->
+<header class="top-bar">
+  <button class="top-action" routerLink="/myprofile" aria-label="Back to profile">
+    <i class="fa-solid fa-arrow-left"></i>
+  </button>
+
+  <div class="top-title">
+    <span>ACCOUNT SETTINGS</span>
+    <h2>Personal Details</h2>
+  </div>
+
+  <button class="top-action" routerLink="/notification" aria-label="Notifications">
+    <i class="fa-regular fa-bell"></i>
+  </button>
+</header>
+
+<main class="profile-page">
+
+  <!-- Page Introduction -->
+  <div class="page-intro">
+    <h1>Manage your profile</h1>
+    <p>Keep your personal information up to date and secure.</p>
+  </div>
+
+  <!-- Profile Card -->
+  <section class="profile-card">
+
+    <div class="profile-card-top">
+      <div class="profile-image-wrapper">
+        <img
+          [src]="user.profileImage || defaultImage"
+          alt="Profile picture"
+          class="profile-image"
+        />
+
+        <button
+          class="edit-profile"
+          type="button"
+          (click)="fileInput.click()"
+          [disabled]="uploadingImage"
+          aria-label="Change profile picture"
+        >
+          <i
+            class="fa-solid"
+            [ngClass]="uploadingImage ? 'fa-spinner fa-spin' : 'fa-camera'"
+          ></i>
+        </button>
+
+        <input
+          #fileInput
+          type="file"
+          accept="image/png,image/jpeg,image/jpg,image/webp"
+          hidden
+          (change)="onImageSelected($event)"
+        />
+      </div>
+
+      <div class="profile-identity">
+        <span class="eyebrow">YOUR ACCOUNT</span>
+        <h2>{{ user.name || 'Your Name' }}</h2>
+        <p>{{ user.email || 'Add your email address' }}</p>
+      </div>
+    </div>
+
+    <div class="profile-card-note">
+      <i class="fa-solid fa-circle-info"></i>
+      <span>Use a clear profile picture so your account is easy to recognize.</span>
+    </div>
+  </section>
+
+  <!-- Personal Information -->
+  <section class="settings-card">
+    <div class="section-heading">
+      <div class="section-icon">
+        <i class="fa-regular fa-user"></i>
+      </div>
+      <div>
+        <h2>Personal information</h2>
+        <p>Update your contact and personal details.</p>
+      </div>
+    </div>
+
+    <div class="form-grid">
+
+      <div class="detail-box">
+        <label for="fullName">Full name</label>
+        <div class="input-wrap">
+          <i class="fa-regular fa-user field-icon"></i>
+          <input
+            id="fullName"
+            type="text"
+            [(ngModel)]="user.name"
+            placeholder="Enter your full name"
+            autocomplete="name"
+          />
+        </div>
+      </div>
+
+      <div class="detail-box">
+        <label for="mobile">Mobile number</label>
+        <div class="input-wrap">
+          <i class="fa-solid fa-phone field-icon"></i>
+          <input
+            id="mobile"
+            type="tel"
+            [(ngModel)]="user.mobile"
+            placeholder="Enter mobile number"
+            autocomplete="tel"
+          />
+        </div>
+      </div>
+
+      <div class="detail-box">
+        <label for="email">Email address</label>
+        <div class="input-wrap">
+          <i class="fa-regular fa-envelope field-icon"></i>
+          <input
+            id="email"
+            type="email"
+            [(ngModel)]="user.email"
+            placeholder="Enter email address"
+            autocomplete="email"
+          />
+        </div>
+      </div>
+
+      <div class="detail-box">
+        <label for="address">Address</label>
+        <div class="input-wrap textarea-wrap">
+          <i class="fa-solid fa-location-dot field-icon"></i>
+          <textarea
+            id="address"
+            [(ngModel)]="user.address"
+            placeholder="Enter your address"
+            rows="3"
+            autocomplete="street-address"
+          ></textarea>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="form-actions">
+      <button
+        class="save-btn"
+        type="button"
+        [disabled]="saving"
+        (click)="updateProfile()"
+      >
+        <i
+          class="fa-solid"
+          [ngClass]="saving ? 'fa-spinner fa-spin' : 'fa-check'"
+        ></i>
+        {{ saving ? 'Saving changes...' : 'Save changes' }}
+      </button>
+    </div>
+  </section>
+
+  <!-- Security -->
+  <section class="settings-card password-section">
+    <div class="section-heading">
+      <div class="section-icon security-icon">
+        <i class="fa-solid fa-shield-halved"></i>
+      </div>
+      <div>
+        <h2>Password and security</h2>
+        <p>Choose a strong password to protect your account.</p>
+      </div>
+    </div>
+
+    <div class="detail-box">
+      <label for="currentPassword">Current password</label>
+      <div class="input-wrap password-input">
+        <i class="fa-solid fa-lock field-icon"></i>
+        <input
+          id="currentPassword"
+          [type]="showCurrentPassword ? 'text' : 'password'"
+          [(ngModel)]="passwordData.currentPassword"
+          placeholder="Enter current password"
+          autocomplete="current-password"
+        />
+        <button
+          class="password-toggle"
+          type="button"
+          (click)="showCurrentPassword = !showCurrentPassword"
+          [attr.aria-label]="showCurrentPassword ? 'Hide current password' : 'Show current password'"
+        >
+          <i
+            class="fa-solid"
+            [ngClass]="showCurrentPassword ? 'fa-eye-slash' : 'fa-eye'"
+          ></i>
+        </button>
+      </div>
+    </div>
+
+    <div class="detail-box">
+      <label for="newPassword">New password</label>
+      <div class="input-wrap password-input">
+        <i class="fa-solid fa-key field-icon"></i>
+        <input
+          id="newPassword"
+          [type]="showNewPassword ? 'text' : 'password'"
+          [(ngModel)]="passwordData.newPassword"
+          placeholder="Enter new password"
+          autocomplete="new-password"
+        />
+        <button
+          class="password-toggle"
+          type="button"
+          (click)="showNewPassword = !showNewPassword"
+          [attr.aria-label]="showNewPassword ? 'Hide new password' : 'Show new password'"
+        >
+          <i
+            class="fa-solid"
+            [ngClass]="showNewPassword ? 'fa-eye-slash' : 'fa-eye'"
+          ></i>
+        </button>
+      </div>
+    </div>
+
+    <div class="detail-box">
+      <label for="confirmPassword">Confirm new password</label>
+      <div class="input-wrap password-input">
+        <i class="fa-solid fa-shield-keyhole field-icon"></i>
+        <input
+          id="confirmPassword"
+          [type]="showConfirmPassword ? 'text' : 'password'"
+          [(ngModel)]="passwordData.confirmPassword"
+          placeholder="Confirm your new password"
+          autocomplete="new-password"
+        />
+        <button
+          class="password-toggle"
+          type="button"
+          (click)="showConfirmPassword = !showConfirmPassword"
+          [attr.aria-label]="showConfirmPassword ? 'Hide confirmation password' : 'Show confirmation password'"
+        >
+          <i
+            class="fa-solid"
+            [ngClass]="showConfirmPassword ? 'fa-eye-slash' : 'fa-eye'"
+          ></i>
+        </button>
+      </div>
+    </div>
+
+    <div class="security-note">
+      <i class="fa-solid fa-shield-halved"></i>
+      <span>Never share your password or OTP with anyone.</span>
+    </div>
+
+    <button
+      class="password-btn"
+      type="button"
+      [disabled]="changingPassword"
+      (click)="changePassword()"
+    >
+      <i
+        class="fa-solid"
+        [ngClass]="changingPassword ? 'fa-spinner fa-spin' : 'fa-lock'"
+      ></i>
+      {{ changingPassword ? 'Updating password...' : 'Update password' }}
+    </button>
+  </section>
+
+  <p class="page-footer">
+    <i class="fa-solid fa-heart"></i>
+    Your space, your comfort.
+  </p>
+
+</main>
