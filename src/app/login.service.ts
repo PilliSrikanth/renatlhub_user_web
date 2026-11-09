@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class LoginService {
-  private readonly baseUrl = 'http://localhost:3200/api/users';
+  private readonly baseUrl = 'https://hoste-new-backend.onrender.com/api/users';
 
   constructor(private http: HttpClient) {}
 

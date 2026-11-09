@@ -1,47 +1,53 @@
+
 <div class="hostel-page">
 
-  <!-- Sticky header -->
+  <!-- Header -->
   <header class="top-bar">
-    <button
-      class="header-icon"
-      type="button"
-      (click)="goBack()"
-      aria-label="Go back">
+    <button class="header-icon" type="button"
+      routerLink="/home" aria-label="Go back">
       <i class="fa-solid fa-arrow-left"></i>
     </button>
 
     <div class="header-title">
       <span>PROPERTY DETAILS</span>
-      <h2>{{ hostel?.name || 'Hostel Details' }}</h2>
+      <h2>{{ hostel?.name || 'Property Details' }}</h2>
     </div>
 
-    <button
-      class="header-icon"
-      type="button"
-      routerLink="/notification"
-      aria-label="Notifications">
+    <button class="header-icon" type="button"
+      routerLink="/notification" aria-label="Notifications">
       <i class="fa-regular fa-bell"></i>
     </button>
   </header>
 
   <main class="page-content">
 
-    <!-- Promotional banner -->
+    <!-- Banner -->
     <section class="banner" *ngIf="bannerImages.length">
-      <img
-        [src]="bannerImages[bannerIndex]"
-        alt="Property banner">
-
+      <img [src]="bannerImages[bannerIndex]" alt="Property banner">
       <div class="banner-shade"></div>
 
       <div class="banner-caption">
-        <span class="banner-tag">FIND YOUR SPACE</span>
-        <h3>Your next chapter<br>starts here.</h3>
+        <span class="banner-tag">
+          {{ isRentalProperty ? 'FIND YOUR ROOM' : 'FIND YOUR SPACE' }}
+        </span>
+        <h3>
+          {{ isRentalProperty ? 'Your new home' : 'Your next chapter' }}<br>
+          starts here.
+        </h3>
       </div>
 
+      <button class="banner-arrow banner-prev" type="button"
+        (click)="prevSlide()" aria-label="Previous banner">
+        <i class="fa-solid fa-chevron-left"></i>
+      </button>
+
+      <button class="banner-arrow banner-next" type="button"
+        (click)="nextSlide()" aria-label="Next banner">
+        <i class="fa-solid fa-chevron-right"></i>
+      </button>
+
       <div class="dots">
-        <button
-          *ngFor="let img of bannerImages; let i = index"
+        <button *ngFor="let img of bannerImages; let i = index"
           type="button"
           class="dot"
           [class.active]="i === bannerIndex"
@@ -51,55 +57,46 @@
       </div>
     </section>
 
-    <!-- Property photo gallery -->
-    <section
-      class="gallery-section"
-      (click)="openCarousel()">
-
+    <!-- Property gallery -->
+    <section class="gallery-section" (click)="openCarousel()">
       <div class="main-photo">
-        <img
-          class="main-img"
+        <img class="main-img"
           [src]="mainImage"
-          [alt]="hostel?.name || 'Hostel photo'"
+          [alt]="hostel?.name || 'Property photo'"
           (error)="setFallbackImage($event)">
 
         <span class="photo-count">
           <i class="fa-regular fa-images"></i>
-          View photos
+          View photos ({{ currentImages.length }})
         </span>
       </div>
     </section>
 
-    <!-- Image lightbox -->
-    <div
-      class="carousel-modal"
+    <!-- Image viewer -->
+    <div class="carousel-modal"
       *ngIf="showCarousel"
       (click)="closeCarousel()">
 
-      <button
-        class="close"
-        type="button"
-        (click)="closeCarousel(); $event.stopPropagation()"
-        aria-label="Close gallery">✕</button>
+      <button class="close" type="button"
+        (click)="closeCarousel(); $event.stopPropagation()">
+        ✕
+      </button>
 
-      <button
-        class="nav prev"
-        type="button"
-        (click)="prevImage(); $event.stopPropagation()"
-        aria-label="Previous photo">❮</button>
+      <button class="nav prev" type="button"
+        (click)="prevImage(); $event.stopPropagation()">
+        ❮
+      </button>
 
-      <img
-        class="carousel-img"
+      <img class="carousel-img"
         [src]="mainImage"
         alt="Property gallery image"
         (error)="setFallbackImage($event)"
         (click)="$event.stopPropagation()">
 
-      <button
-        class="nav next"
-        type="button"
-        (click)="nextImage(); $event.stopPropagation()"
-        aria-label="Next photo">❯</button>
+      <button class="nav next" type="button"
+        (click)="nextImage(); $event.stopPropagation()">
+        ❯
+      </button>
 
       <div class="counter">
         {{ currentImages.length ? currentIndex + 1 : 0 }}
@@ -111,14 +108,26 @@
     <section class="property-intro">
       <div class="property-heading">
         <div>
-          <span class="section-kicker">YOUR POTENTIAL NEW HOME</span>
-          <h1>{{ hostel?.name || 'Property details' }}</h1>
+          <span class="section-kicker">
+            {{ isRentalProperty ? 'YOUR NEW RENTAL HOME' : 'YOUR POTENTIAL NEW HOME' }}
+          </span>
+
+          <h1>{{ hostel?.name || 'Property Details' }}</h1>
+
+          <span class="property-type-label">
+            <i [class]="isRentalProperty
+              ? 'fa-solid fa-house'
+              : 'fa-solid fa-bed'"></i>
+            {{ isRentalProperty ? 'Rental Room' : 'Hostel' }}
+          </span>
         </div>
 
         <div class="rating-summary">
           <i class="fa-solid fa-star"></i>
           <strong>
-            {{ hostel?.avgRating ? (hostel.avgRating | number:'1.1-1') : '0.0' }}
+            {{ hostel?.avgRating
+              ? (hostel.avgRating | number:'1.1-1')
+              : '0.0' }}
           </strong>
           <span>Rating</span>
         </div>
@@ -126,11 +135,142 @@
 
       <p class="intro-subtitle">
         <i class="fa-solid fa-location-dot"></i>
-        Choose a room option that suits you.
+        {{ isRentalProperty
+          ? 'View rental information and contact the property owner.'
+          : 'Choose a room option that suits you.' }}
       </p>
     </section>
 
-    <!-- HOSTEL ADDRESS AND MAP -->
+    <!-- Rental room details -->
+    <section class="content-card rental-details"
+      *ngIf="isRentalProperty">
+
+      <div class="section-heading">
+        <div>
+          <span class="section-kicker">RENTAL INFORMATION</span>
+          <h2>Room details</h2>
+        </div>
+
+        <span class="rental-tag">Available for rent</span>
+      </div>
+
+      <!-- Rent highlight -->
+      <div class="rent-highlight">
+        <div>
+          <span>Monthly rent</span>
+          <h2>{{ formatCurrency(rentalRent) }}</h2>
+        </div>
+
+        <i class="fa-solid fa-house"></i>
+      </div>
+
+      <!-- Property specifications -->
+      <div class="rental-info-grid">
+
+        <div class="rental-info-item">
+          <i class="fa-solid fa-bed"></i>
+          <div>
+            <small>Bedrooms</small>
+            <strong>{{ hostel?.bedrooms ?? 'Not specified' }}</strong>
+          </div>
+        </div>
+
+        <div class="rental-info-item">
+          <i class="fa-solid fa-bath"></i>
+          <div>
+            <small>Bathrooms</small>
+            <strong>{{ hostel?.bathrooms ?? 'Not specified' }}</strong>
+          </div>
+        </div>
+
+        <div class="rental-info-item">
+          <i class="fa-solid fa-wallet"></i>
+          <div>
+            <small>Security deposit</small>
+            <strong>
+              {{ hostel?.deposit != null
+                ? formatCurrency(hostel.deposit)
+                : 'Not specified' }}
+            </strong>
+          </div>
+        </div>
+
+        <div class="rental-info-item">
+          <i class="fa-solid fa-ruler-combined"></i>
+          <div>
+            <small>Built-up area</small>
+            <strong>
+              {{ hostel?.builtUpArea
+                ? hostel.builtUpArea + ' sq.ft'
+                : 'Not specified' }}
+            </strong>
+          </div>
+        </div>
+
+        <div class="rental-info-item">
+          <i class="fa-solid fa-building"></i>
+          <div>
+            <small>Floor</small>
+            <strong>{{ hostel?.floor || 'Not specified' }}</strong>
+          </div>
+        </div>
+
+        <div class="rental-info-item">
+          <i class="fa-solid fa-couch"></i>
+          <div>
+            <small>Furnishing</small>
+            <strong>{{ hostel?.furnishing || 'Not specified' }}</strong>
+          </div>
+        </div>
+
+        <div class="rental-info-item">
+          <i class="fa-solid fa-door-open"></i>
+          <div>
+            <small>Room type</small>
+            <strong>
+              {{ hostel?.roomType || hostel?.propertyType || 'Rental room' }}
+            </strong>
+          </div>
+        </div>
+
+        <div class="rental-info-item">
+          <i class="fa-solid fa-users"></i>
+          <div>
+            <small>Preferred tenants</small>
+            <strong>
+              {{ hostel?.preferredTenants || 'Not specified' }}
+            </strong>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Description -->
+      <div class="rental-description"
+        *ngIf="hostel?.description">
+
+        <h3>About this property</h3>
+        <p>{{ hostel.description }}</p>
+      </div>
+
+      <!-- Features -->
+      <div class="rental-features"
+        *ngIf="rentalFeatures.length">
+
+        <h3>Property features</h3>
+
+        <div class="feature-list">
+          <span class="feature-chip"
+            *ngFor="let feature of rentalFeatures">
+
+            <i class="fa-solid fa-check"></i>
+            {{ feature }}
+          </span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Address and map -->
     <section class="content-card address-card">
 
       <div class="address-heading">
@@ -139,7 +279,7 @@
         </div>
 
         <div>
-          <span class="section-kicker">FIND YOUR HOSTEL</span>
+          <span class="section-kicker">PROPERTY LOCATION</span>
           <h2>Exact location &amp; address</h2>
         </div>
       </div>
@@ -148,7 +288,7 @@
         <i class="fa-solid fa-map-pin"></i>
 
         <div>
-          <span class="address-label">Hostel address</span>
+          <span class="address-label">Property address</span>
 
           <p *ngIf="getHostelAddress(); else addressUnavailable">
             {{ getHostelAddress() }}
@@ -162,8 +302,7 @@
         </div>
       </div>
 
-      <div
-        class="address-information"
+      <div class="address-information"
         *ngIf="getHostelCoordinates() as coords">
 
         <i class="fa-solid fa-crosshairs"></i>
@@ -174,19 +313,19 @@
         </div>
       </div>
 
-      <div
-        class="map-container"
+      <div class="map-container"
         *ngIf="getHostelCoordinates() || getHostelAddress()">
 
         <div class="map-top-label">
           <i class="fa-solid fa-map-location-dot"></i>
-          {{ getHostelCoordinates() ? 'GPS location' : 'Address-based location' }}
+          {{ getHostelCoordinates()
+            ? 'GPS location'
+            : 'Address-based location' }}
         </div>
 
-        <iframe
-          class="hostel-map"
+        <iframe class="hostel-map"
           [src]="getMapUrl()"
-          title="Hostel location map"
+          title="Property location map"
           width="100%"
           height="320"
           loading="lazy"
@@ -195,29 +334,27 @@
         </iframe>
       </div>
 
-      <a
-        *ngIf="getHostelCoordinates() || getHostelAddress()"
+      <a *ngIf="getHostelCoordinates() || getHostelAddress()"
         class="directions-button"
         [href]="getGoogleMapsUrl()"
         target="_blank"
         rel="noopener noreferrer">
 
         <i class="fa-solid fa-diamond-turn-right"></i>
-        Get directions to hostel
+        Get directions
         <i class="fa-solid fa-arrow-up-right-from-square external-icon"></i>
       </a>
 
-      <p
-        class="address-missing"
+      <p class="address-missing"
         *ngIf="!getHostelCoordinates() && !getHostelAddress()">
-        The exact location is not saved yet. Add the hostel address and GPS coordinates in the owner dashboard.
+        The exact location is not saved yet. Add the property address and
+        GPS coordinates in the owner dashboard.
       </p>
     </section>
 
-    <!-- Sharing options -->
-    <section
-      class="content-card"
-      *ngIf="hostel?.sharingMedia">
+    <!-- Hostel sharing options only -->
+    <section class="content-card"
+      *ngIf="!isRentalProperty && hasSharingOptions">
 
       <div class="section-heading">
         <div>
@@ -227,20 +364,16 @@
       </div>
 
       <div class="sharing-options">
-        <div
-          class="sharing-option"
+        <div class="sharing-option"
           *ngFor="let item of sharingTypes"
-          [hidden]="(hostel?.vacancy?.[item.dataKey] ?? 0) <= 0">
+          [hidden]="!hasAvailableSharing(item.dataKey)">
 
-          <button
-            type="button"
+          <button type="button"
             class="sharing-image"
             [class.active]="selectedSharing === item.mediaKey"
-            (click)="selectSharing(item.mediaKey)"
-            [attr.aria-label]="'Select ' + item.label + ' sharing'">
+            (click)="selectSharing(item.mediaKey)">
 
-            <img
-              [src]="getSharingImage(item.mediaKey)"
+            <img [src]="getSharingImage(item.mediaKey)"
               [alt]="item.label + ' sharing'"
               (error)="setFallbackImage($event)">
 
@@ -248,8 +381,7 @@
               {{ hostel?.roomSharing?.[item.dataKey] ?? 0 }}
             </span>
 
-            <span
-              class="selected-check"
+            <span class="selected-check"
               *ngIf="selectedSharing === item.mediaKey">
               <i class="fa-solid fa-check"></i>
             </span>
@@ -270,8 +402,7 @@
     </section>
 
     <!-- Services -->
-    <section
-      class="content-card"
+    <section class="content-card"
       *ngIf="hostel?.services?.length">
 
       <div class="section-heading">
@@ -282,8 +413,7 @@
       </div>
 
       <div class="services">
-        <div
-          class="service-item"
+        <div class="service-item"
           *ngFor="let service of hostel.services">
 
           <i class="fa-solid fa-circle-check"></i>
@@ -292,7 +422,7 @@
       </div>
     </section>
 
-    <!-- Owner information -->
+    <!-- Owner -->
     <section class="content-card owner-card">
 
       <div class="section-heading">
@@ -313,7 +443,7 @@
         </div>
 
         <div class="owner-name">
-          <h3>{{ hostel?.ownerId?.name || 'Property owner' }}</h3>
+          <h3>{{ ownerName }}</h3>
           <p>Property owner</p>
         </div>
       </div>
@@ -325,7 +455,7 @@
 
         <div>
           <small>Email address</small>
-          <p>{{ hostel?.ownerId?.email || 'Not provided' }}</p>
+          <p>{{ ownerEmail }}</p>
         </div>
       </div>
 
@@ -336,7 +466,7 @@
 
         <div>
           <small>Contact number</small>
-          <p>{{ hostel?.ownerId?.mobile || 'Not provided' }}</p>
+          <p>{{ ownerMobile }}</p>
         </div>
       </div>
     </section>
@@ -360,24 +490,22 @@
         <h3>Rate this property</h3>
         <p>Tell other users about your experience.</p>
 
-        <div
-          class="star-rating"
-          role="group"
-          aria-label="Select rating">
+        <div class="star-rating"
+     role="group"
+     aria-label="Select rating">
 
-          <button
-            type="button"
-            *ngFor="let star of [1, 2, 3, 4, 5]"
-            [class.filled]="star <= reviewRating"
-            (click)="reviewRating = star"
-            [attr.aria-label]="'Rate ' + star + ' stars'">
-            ★
-          </button>
-        </div>
+  <button type="button"
+          *ngFor="let star of [1, 2, 3, 4, 5]"
+          [class.filled]="star <= reviewRating"
+          (click)="reviewRating = star"
+          [attr.aria-label]="'Rate ' + star + ' stars'">
+    ★
+  </button>
+
+</div>
 
         <div class="review-input">
-          <input
-            type="text"
+          <input type="text"
             [(ngModel)]="reviewText"
             placeholder="Write your review..."
             aria-label="Write your review">
@@ -389,9 +517,10 @@
       </div>
 
       <div class="review-list">
-        <article
-          class="rating-card"
-          *ngFor="let r of (showAllComments ? ratings : (ratings | slice:0:3)); let i = index">
+        <article class="rating-card"
+          *ngFor="let r of (showAllComments
+            ? ratings
+            : (ratings | slice:0:3)); let i = index">
 
           <div class="review-avatar">
             {{ (r.userId?.name || 'U').charAt(0) | uppercase }}
@@ -411,11 +540,12 @@
             </div>
 
             <p class="review-comment">
-              <ng-container *ngIf="expandedComment === i; else shortComment">
+              <ng-container
+                *ngIf="expandedComment === i; else shortComment">
+
                 {{ r.comment }}
 
-                <button
-                  type="button"
+                <button type="button"
                   *ngIf="(r.comment || '').length > 80"
                   class="show-more"
                   (click)="toggleComment(i)">
@@ -426,8 +556,7 @@
               <ng-template #shortComment>
                 {{ r.comment | slice:0:80 }}
 
-                <button
-                  type="button"
+                <button type="button"
                   *ngIf="(r.comment || '').length > 80"
                   class="show-more"
                   (click)="toggleComment(i)">
@@ -444,16 +573,16 @@
         <p>No reviews yet. Be the first to share your experience!</p>
       </div>
 
-      <button
-        *ngIf="ratings.length > 3"
+      <button *ngIf="ratings.length > 3"
         type="button"
         class="show-all"
         (click)="toggleComments()">
 
-        {{ showAllComments ? 'Show fewer reviews' : 'View all reviews' }}
+        {{ showAllComments
+          ? 'Show fewer reviews'
+          : 'View all reviews' }}
 
-        <i
-          class="fa-solid"
+        <i class="fa-solid"
           [class.fa-chevron-up]="showAllComments"
           [class.fa-chevron-down]="!showAllComments">
         </i>
@@ -463,10 +592,10 @@
     <div class="bottom-space"></div>
   </main>
 
-  <!-- Sticky bottom actions -->
+  <!-- Bottom actions -->
   <div class="bottom-actions">
-    <button
-      type="button"
+
+    <button type="button"
       class="btn message-btn"
       (click)="contactAdmin()">
 
@@ -474,13 +603,13 @@
       Message now
     </button>
 
-    <button
-      type="button"
+    <button type="button"
       class="btn enroll-btn"
       (click)="sendRequest()">
 
-      Request to enroll
+      {{ isRentalProperty ? 'Request to rent' : 'Request to enroll' }}
       <i class="fa-solid fa-arrow-right"></i>
     </button>
+
   </div>
 </div>

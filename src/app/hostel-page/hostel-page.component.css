@@ -3,7 +3,7 @@
   display: block;
   min-height: 100vh;
   color: #25262b;
-  background: #f7f8fa;
+  background: #f6f7f9;
   font-family: "Outfit", "Segoe UI", sans-serif;
 }
 
@@ -21,12 +21,14 @@ button {
 }
 
 .hostel-page {
-  width: 100%;
   min-height: 100vh;
   padding-top: 76px;
+  padding-bottom: 90px;
 }
 
-/* Header */
+/* =========================
+   HEADER
+========================= */
 
 .top-bar {
   position: fixed;
@@ -37,8 +39,8 @@ button {
   gap: 13px;
   min-height: 70px;
   padding: 10px max(16px, calc((100% - 1040px) / 2));
-  background: rgba(255, 255, 255, 0.96);
-  border-bottom: 1px solid #eeeeef;
+  background: rgba(255, 255, 255, 0.97);
+  border-bottom: 1px solid #ededf0;
   box-shadow: 0 3px 18px rgba(22, 29, 39, 0.045);
   backdrop-filter: blur(12px);
 }
@@ -59,7 +61,7 @@ button {
 }
 
 .header-icon:hover {
-  color: white;
+  color: #fff;
   background: #ff4b00;
   border-color: #ff4b00;
 }
@@ -88,15 +90,19 @@ button {
   white-space: nowrap;
 }
 
-/* Main content */
+/* =========================
+   MAIN CONTENT
+========================= */
 
 .page-content {
   width: min(100% - 40px, 850px);
   margin: 0 auto;
-  padding: 22px 0 0;
+  padding-top: 22px;
 }
 
-/* Banner */
+/* =========================
+   BANNER
+========================= */
 
 .banner {
   position: relative;
@@ -109,21 +115,21 @@ button {
 
 .banner > img {
   position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
-  inset: 0;
 }
 
 .banner-shade {
   position: absolute;
+  inset: 0;
   z-index: 0;
   background: linear-gradient(
     90deg,
-    rgba(21, 20, 20, 0.8),
-    rgba(21, 20, 20, 0.18)
+    rgba(21, 20, 20, 0.82),
+    rgba(21, 20, 20, 0.12)
   );
-  inset: 0;
   pointer-events: none;
 }
 
@@ -132,7 +138,7 @@ button {
   z-index: 1;
   top: 50%;
   left: 27px;
-  color: white;
+  color: #fff;
   transform: translateY(-50%);
 }
 
@@ -140,6 +146,7 @@ button {
   display: inline-block;
   margin-bottom: 10px;
   padding: 6px 9px;
+  color: #fff;
   background: #ff4b00;
   border-radius: 6px;
   font-size: 9px;
@@ -152,6 +159,36 @@ button {
   font-size: clamp(23px, 4vw, 31px);
   font-weight: 800;
   line-height: 1.2;
+}
+
+.banner-arrow {
+  position: absolute;
+  z-index: 3;
+  top: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  color: #fff;
+  background: rgba(0, 0, 0, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  cursor: pointer;
+  transform: translateY(-50%);
+  transition: background 0.2s ease;
+}
+
+.banner-arrow:hover {
+  background: #ff4b00;
+}
+
+.banner-prev {
+  left: 12px;
+}
+
+.banner-next {
+  right: 12px;
 }
 
 .dots {
@@ -179,7 +216,9 @@ button {
   background: #ff4b00;
 }
 
-/* Property photo */
+/* =========================
+   PROPERTY GALLERY
+========================= */
 
 .gallery-section {
   margin-top: 20px;
@@ -215,13 +254,15 @@ button {
   gap: 7px;
   padding: 10px 13px;
   color: #25262b;
-  background: rgba(255, 255, 255, 0.95);
+  background: rgba(255, 255, 255, 0.96);
   border-radius: 11px;
   font-size: 11px;
   font-weight: 700;
 }
 
-/* Gallery modal */
+/* =========================
+   GALLERY LIGHTBOX
+========================= */
 
 .carousel-modal {
   position: fixed;
@@ -251,7 +292,7 @@ button {
   justify-content: center;
   width: 43px;
   height: 43px;
-  color: white;
+  color: #fff;
   background: #292929;
   border: none;
   border-radius: 50%;
@@ -291,7 +332,9 @@ button {
   font-size: 13px;
 }
 
-/* Property introduction */
+/* =========================
+   PROPERTY INTRO
+========================= */
 
 .property-intro {
   padding: 25px 2px 10px;
@@ -304,6 +347,15 @@ button {
   gap: 15px;
 }
 
+.property-heading h1 {
+  margin: 0;
+  color: #25262b;
+  font-size: clamp(24px, 4vw, 32px);
+  font-weight: 800;
+  line-height: 1.25;
+  overflow-wrap: anywhere;
+}
+
 .section-kicker {
   display: block;
   margin-bottom: 7px;
@@ -313,13 +365,18 @@ button {
   letter-spacing: 1.2px;
 }
 
-.property-heading h1 {
-  margin: 0;
-  color: #25262b;
-  font-size: clamp(24px, 4vw, 32px);
+.property-type-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 10px;
+  padding: 7px 11px;
+  color: #e94a0a;
+  background: #fff1e9;
+  border: 1px solid #ffdfce;
+  border-radius: 30px;
+  font-size: 10px;
   font-weight: 800;
-  line-height: 1.25;
-  overflow-wrap: anywhere;
 }
 
 .rating-summary {
@@ -354,13 +411,16 @@ button {
   margin: 12px 0 0;
   color: #858994;
   font-size: 12px;
+  line-height: 1.6;
 }
 
 .intro-subtitle i {
   color: #ff4b00;
 }
 
-/* Cards and section headings */
+/* =========================
+   COMMON CONTENT CARDS
+========================= */
 
 .content-card {
   margin-top: 18px;
@@ -390,7 +450,223 @@ button {
   margin-bottom: 6px;
 }
 
-/* Sharing options */
+/* =========================
+   RENTAL ROOM DESIGN
+========================= */
+
+.rental-details {
+  padding: 23px;
+  background: linear-gradient(145deg, #fff 0%, #fffaf7 100%);
+  border: 1px solid #f5e9e2;
+  box-shadow: 0 8px 28px rgba(255, 75, 0, 0.055);
+}
+
+.rental-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+  padding: 8px 12px;
+  color: #18834d;
+  background: #eaf8ef;
+  border: 1px solid #ccebd6;
+  border-radius: 30px;
+  font-size: 10px;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.rental-tag::before {
+  width: 7px;
+  height: 7px;
+  content: "";
+  background: #20a45f;
+  border-radius: 50%;
+}
+
+.rent-highlight {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+  margin-bottom: 20px;
+  padding: 23px;
+  overflow: hidden;
+  color: #fff;
+  background: linear-gradient(120deg, #ff7137 0%, #ff4b00 65%, #e84300 100%);
+  border-radius: 18px;
+  box-shadow: 0 8px 20px rgba(255, 75, 0, 0.17);
+}
+
+.rent-highlight::after {
+  position: absolute;
+  top: -50px;
+  right: 65px;
+  width: 170px;
+  height: 170px;
+  content: "";
+  background: rgba(255, 255, 255, 0.09);
+  border-radius: 50%;
+}
+
+.rent-highlight > div {
+  position: relative;
+  z-index: 1;
+}
+
+.rent-highlight span {
+  display: block;
+  margin-bottom: 7px;
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+.rent-highlight h2 {
+  margin: 0;
+  color: #fff;
+  font-size: clamp(25px, 5vw, 34px);
+  font-weight: 850;
+  line-height: 1.15;
+  overflow-wrap: anywhere;
+}
+
+.rent-highlight > div::after {
+  display: block;
+  margin-top: 7px;
+  color: rgba(255, 255, 255, 0.82);
+  content: "per month";
+  font-size: 11px;
+  font-weight: 500;
+}
+
+.rent-highlight > i {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 58px;
+  width: 58px;
+  height: 58px;
+  color: #fff;
+  background: rgba(255, 255, 255, 0.19);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 18px;
+  font-size: 25px;
+}
+
+.rental-info-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.rental-info-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+  min-height: 78px;
+  padding: 14px;
+  background: #fff;
+  border: 1px solid #f0ece9;
+  border-radius: 14px;
+  transition: border-color 0.2s ease, transform 0.2s ease;
+}
+
+.rental-info-item:hover {
+  border-color: #ffc3a9;
+  transform: translateY(-2px);
+}
+
+.rental-info-item > i {
+  display: flex;
+  flex: 0 0 39px;
+  align-items: center;
+  justify-content: center;
+  width: 39px;
+  height: 39px;
+  color: #ff4b00;
+  background: #fff0e8;
+  border-radius: 12px;
+  font-size: 16px;
+}
+
+.rental-info-item > div {
+  min-width: 0;
+}
+
+.rental-info-item small {
+  display: block;
+  margin-bottom: 5px;
+  color: #92949c;
+  font-size: 10px;
+  font-weight: 600;
+}
+
+.rental-info-item strong {
+  display: block;
+  color: #292a2f;
+  font-size: 13px;
+  font-weight: 800;
+  line-height: 1.45;
+  overflow-wrap: anywhere;
+}
+
+.rental-description,
+.rental-features {
+  margin-top: 20px;
+  padding-top: 19px;
+  border-top: 1px solid #f0ece9;
+}
+
+.rental-description h3,
+.rental-features h3 {
+  margin: 0 0 10px;
+  color: #292a2f;
+  font-size: 15px;
+  font-weight: 800;
+}
+
+.rental-description p {
+  margin: 0;
+  color: #6e717a;
+  font-size: 12px;
+  line-height: 1.85;
+  white-space: pre-line;
+  overflow-wrap: anywhere;
+}
+
+.feature-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 9px;
+}
+
+.feature-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 9px 12px;
+  color: #397453;
+  background: #eff9f2;
+  border: 1px solid #d9efdf;
+  border-radius: 30px;
+  font-size: 11px;
+  font-weight: 650;
+}
+
+.feature-chip i {
+  color: #20a45f;
+  font-size: 10px;
+}
+
+/* =========================
+   HOSTEL SHARING OPTIONS
+========================= */
 
 .sharing-options {
   display: grid;
@@ -486,7 +762,173 @@ button {
   font-size: 10px;
 }
 
-/* Services */
+.selected-room {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin: 17px 0 0;
+  color: #278452;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+/* =========================
+   ADDRESS AND MAP
+========================= */
+
+.address-card {
+  padding: 22px;
+  overflow: hidden;
+  background: linear-gradient(145deg, #fff 0%, #fffaf7 100%);
+}
+
+.address-heading {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  margin-bottom: 21px;
+}
+
+.address-heading-icon {
+  display: flex;
+  flex: 0 0 49px;
+  align-items: center;
+  justify-content: center;
+  width: 49px;
+  height: 49px;
+  color: #fff;
+  background: linear-gradient(135deg, #ff7137, #ff4b00);
+  border-radius: 16px;
+  box-shadow: 0 7px 16px rgba(255, 75, 0, 0.2);
+  font-size: 20px;
+}
+
+.address-heading h2 {
+  margin: 0;
+  color: #25262b;
+  font-size: 21px;
+  font-weight: 800;
+}
+
+.address-information {
+  display: flex;
+  align-items: flex-start;
+  gap: 13px;
+  margin-top: 12px;
+  padding: 16px;
+  background: #fff;
+  border: 1px solid #f1e6df;
+  border-radius: 15px;
+}
+
+.address-information > i {
+  margin-top: 3px;
+  color: #ff4b00;
+  font-size: 19px;
+}
+
+.address-information > div {
+  flex: 1;
+  min-width: 0;
+}
+
+.address-label {
+  display: block;
+  margin-bottom: 7px;
+  color: #8b8e97;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+}
+
+.address-information p {
+  margin: 0;
+  color: #33353b;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.8;
+  overflow-wrap: anywhere;
+}
+
+.address-information .address-missing,
+.address-missing {
+  color: #888;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.7;
+}
+
+.map-container {
+  position: relative;
+  margin-top: 17px;
+  padding: 7px;
+  overflow: hidden;
+  background: #fff;
+  border: 1px solid #eceef1;
+  border-radius: 17px;
+  box-shadow: 0 5px 18px rgba(30, 36, 48, 0.06);
+}
+
+.map-top-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 11px 10px 13px;
+  color: #34363c;
+  font-size: 12px;
+  font-weight: 750;
+}
+
+.map-top-label i {
+  color: #ff4b00;
+  font-size: 16px;
+}
+
+.hostel-map {
+  display: block;
+  width: 100%;
+  height: 320px;
+  background: #f1f2f4;
+  border: 0;
+  border-radius: 12px;
+}
+
+.directions-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  min-height: 49px;
+  margin-top: 15px;
+  padding: 13px 15px;
+  color: #fff;
+  background: linear-gradient(135deg, #ff7137, #ff4b00);
+  border: 1px solid #ff4b00;
+  border-radius: 13px;
+  box-shadow: 0 6px 14px rgba(255, 75, 0, 0.16);
+  font-size: 12px;
+  font-weight: 750;
+  text-align: center;
+  text-decoration: none;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.directions-button:hover {
+  color: #fff;
+  box-shadow: 0 9px 19px rgba(255, 75, 0, 0.24);
+  transform: translateY(-1px);
+}
+
+.directions-button .external-icon {
+  margin-left: auto;
+  font-size: 11px;
+}
+
+/* =========================
+   SERVICES
+========================= */
 
 .services {
   display: flex;
@@ -513,7 +955,9 @@ button {
   color: #278452;
 }
 
-/* Owner */
+/* =========================
+   OWNER
+========================= */
 
 .owner-badge {
   display: inline-flex;
@@ -600,7 +1044,9 @@ button {
   overflow-wrap: anywhere;
 }
 
-/* Reviews */
+/* =========================
+   REVIEWS
+========================= */
 
 .review-count {
   display: flex;
@@ -831,7 +1277,9 @@ button {
   height: 30px;
 }
 
-/* Sticky bottom actions */
+/* =========================
+   STICKY BOTTOM ACTIONS
+========================= */
 
 .bottom-actions {
   position: fixed;
@@ -888,7 +1336,9 @@ button {
   background: #e84300;
 }
 
-/* Tablet */
+/* =========================
+   TABLET
+========================= */
 
 @media (max-width: 700px) {
   .page-content {
@@ -918,13 +1368,20 @@ button {
   .sharing-options {
     grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
   }
+
+  .rental-info-grid {
+    gap: 10px;
+  }
 }
 
-/* Mobile */
+/* =========================
+   MOBILE
+========================= */
 
 @media (max-width: 480px) {
   .hostel-page {
     padding-top: 67px;
+    padding-bottom: 83px;
   }
 
   .top-bar {
@@ -1036,6 +1493,85 @@ button {
     letter-spacing: 0.9px;
   }
 
+  .rental-details {
+    padding: 16px 13px;
+  }
+
+  .rental-tag {
+    padding: 7px 9px;
+    font-size: 8px;
+  }
+
+  .rent-highlight {
+    margin-bottom: 14px;
+    padding: 18px 15px;
+    border-radius: 15px;
+  }
+
+  .rent-highlight h2 {
+    font-size: 27px;
+  }
+
+  .rent-highlight > i {
+    flex-basis: 47px;
+    width: 47px;
+    height: 47px;
+    border-radius: 14px;
+    font-size: 20px;
+  }
+
+  .rental-info-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 9px;
+  }
+
+  .rental-info-item {
+    min-height: 72px;
+    gap: 8px;
+    padding: 10px 8px;
+    border-radius: 12px;
+  }
+
+  .rental-info-item > i {
+    flex-basis: 32px;
+    width: 32px;
+    height: 32px;
+    border-radius: 10px;
+    font-size: 13px;
+  }
+
+  .rental-info-item small {
+    font-size: 9px;
+  }
+
+  .rental-info-item strong {
+    font-size: 11px;
+  }
+
+  .rental-description,
+  .rental-features {
+    margin-top: 16px;
+    padding-top: 15px;
+  }
+
+  .rental-description h3,
+  .rental-features h3 {
+    font-size: 14px;
+  }
+
+  .rental-description p {
+    font-size: 11px;
+  }
+
+  .feature-list {
+    gap: 7px;
+  }
+
+  .feature-chip {
+    padding: 8px 10px;
+    font-size: 10px;
+  }
+
   .sharing-options {
     grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 18px 8px;
@@ -1110,212 +1646,6 @@ button {
     border-radius: 12px;
   }
 
-  .bottom-actions {
-    gap: 8px;
-    padding: 10px 12px;
-    padding-bottom: max(10px, env(safe-area-inset-bottom));
-  }
-
-  .btn {
-    min-height: 46px;
-    gap: 6px;
-    padding: 10px 8px;
-    border-radius: 12px;
-    font-size: 11px;
-  }
-
-  .bottom-space {
-    height: 24px;
-  }
-}
-
-@media (max-width: 350px) {
-  .property-heading h1 {
-    font-size: 20px;
-  }
-
-  .sharing-options {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  .bottom-actions {
-    grid-template-columns: 1fr 1.15fr;
-  }
-
-  .btn {
-    font-size: 10px;
-  }
-
-  .owner-badge {
-    display: none;
-  }
-}
-
-/* =========================================
-   HOSTEL ADDRESS AND MAP - PREMIUM DESIGN
-========================================= */
-
-.address-card {
-  padding: 22px;
-  overflow: hidden;
-  background: linear-gradient(145deg, #ffffff 0%, #fffaf7 100%);
-}
-
-.address-heading {
-  display: flex;
-  align-items: center;
-  gap: 13px;
-  margin-bottom: 21px;
-}
-
-.address-heading-icon {
-  display: flex;
-  flex: 0 0 49px;
-  align-items: center;
-  justify-content: center;
-  width: 49px;
-  height: 49px;
-  color: #fff;
-  background: linear-gradient(135deg, #ff7137, #ff4b00);
-  border-radius: 16px;
-  box-shadow: 0 7px 16px rgba(255, 75, 0, 0.2);
-  font-size: 20px;
-}
-
-.address-heading h2 {
-  margin: 0;
-  color: #25262b;
-  font-size: 21px;
-  font-weight: 800;
-}
-
-.address-information {
-  display: flex;
-  align-items: flex-start;
-  gap: 13px;
-  padding: 16px;
-  background: #fff;
-  border: 1px solid #f1e6df;
-  border-radius: 15px;
-}
-
-.address-information > i {
-  margin-top: 3px;
-  color: #ff4b00;
-  font-size: 19px;
-}
-
-.address-information > div {
-  flex: 1;
-  min-width: 0;
-}
-
-.address-label {
-  display: block;
-  margin-bottom: 7px;
-  color: #8b8e97;
-  font-size: 10px;
-  font-weight: 800;
-  letter-spacing: 0.8px;
-  text-transform: uppercase;
-}
-
-.address-information p {
-  margin: 0;
-  color: #33353b;
-  font-size: 13px;
-  font-weight: 600;
-  line-height: 1.8;
-  overflow-wrap: anywhere;
-}
-
-.address-information .address-missing {
-  color: #888;
-  font-weight: 400;
-}
-
-.map-container {
-  position: relative;
-  margin-top: 17px;
-  padding: 7px;
-  overflow: hidden;
-  background: #fff;
-  border: 1px solid #eceef1;
-  border-radius: 17px;
-  box-shadow: 0 5px 18px rgba(30, 36, 48, 0.06);
-}
-
-.map-top-label {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 11px 10px 13px;
-  color: #34363c;
-  font-size: 12px;
-  font-weight: 750;
-}
-
-.map-top-label i {
-  color: #ff4b00;
-  font-size: 16px;
-}
-
-.hostel-map {
-  display: block;
-  width: 100%;
-  height: 320px;
-  background: #f1f2f4;
-  border: 0;
-  border-radius: 12px;
-}
-
-.directions-button {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  width: 100%;
-  min-height: 49px;
-  margin-top: 15px;
-  padding: 13px 15px;
-  color: #fff;
-  background: linear-gradient(135deg, #ff7137, #ff4b00);
-  border: 1px solid #ff4b00;
-  border-radius: 13px;
-  box-shadow: 0 6px 14px rgba(255, 75, 0, 0.16);
-  font-size: 12px;
-  font-weight: 750;
-  text-align: center;
-  text-decoration: none;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.directions-button:hover {
-  color: #fff;
-  box-shadow: 0 9px 19px rgba(255, 75, 0, 0.24);
-  transform: translateY(-1px);
-}
-
-.directions-button .external-icon {
-  margin-left: auto;
-  font-size: 11px;
-}
-
-.selected-room {
-  display: flex;
-  align-items: center;
-  gap: 7px;
-  margin: 17px 0 0;
-  color: #278452;
-  font-size: 12px;
-  font-weight: 700;
-}
-
-.selected-room i {
-  font-size: 14px;
-}
-
-@media (max-width: 480px) {
   .address-card {
     padding: 16px 13px;
   }
@@ -1355,5 +1685,48 @@ button {
     padding: 12px 9px;
     font-size: 11px;
   }
+
+  .bottom-actions {
+    gap: 8px;
+    padding: 10px 12px;
+    padding-bottom: max(10px, env(safe-area-inset-bottom));
+  }
+
+  .btn {
+    min-height: 46px;
+    gap: 6px;
+    padding: 10px 8px;
+    border-radius: 12px;
+    font-size: 11px;
+  }
+
+  .bottom-space {
+    height: 24px;
+  }
 }
 
+@media (max-width: 350px) {
+  .property-heading h1 {
+    font-size: 20px;
+  }
+
+  .sharing-options {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .bottom-actions {
+    grid-template-columns: 1fr 1.15fr;
+  }
+
+  .btn {
+    font-size: 10px;
+  }
+
+  .owner-badge {
+    display: none;
+  }
+
+  .rental-info-grid {
+    grid-template-columns: 1fr;
+  }
+}
