@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class HostelPageService {
-  private baseUrl = 'http://localhost:3200/api'; // Replace with your backend URL
+  private baseUrl = 'https://desktop-7rujm19.tailb99dfe.ts.net/api'; // Replace with your backend URL
   constructor(private http: HttpClient) {}
 
 

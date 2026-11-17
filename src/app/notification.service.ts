@@ -38,7 +38,7 @@ export interface NotificationResponse {
   providedIn: 'root'
 })
 export class NotificationService {
-  private readonly apiUrl = 'http://localhost:3200/api/notification';
+  private readonly apiUrl = 'https://desktop-7rujm19.tailb99dfe.ts.net/api/notification';
 
   constructor(private http: HttpClient) {}
 

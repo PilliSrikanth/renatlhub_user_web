@@ -9,7 +9,7 @@ import { Observable } from 'rxjs';
 export class ChatService {
 
   // REST API
-  baseUrl = "http://localhost:3200/api/chat";
+  baseUrl = "https://desktop-7rujm19.tailb99dfe.ts.net/api/chat";
 
   // SOCKET.IO connection
   socket: any;

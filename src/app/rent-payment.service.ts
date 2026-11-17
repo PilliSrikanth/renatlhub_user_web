@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class RentPaymentService {
-  private apiUrl = 'http://localhost:3200/api/cosmic-payments';
+  private apiUrl = 'https://desktop-7rujm19.tailb99dfe.ts.net/api/cosmic-payments';
 
   constructor(private http: HttpClient) {}
 

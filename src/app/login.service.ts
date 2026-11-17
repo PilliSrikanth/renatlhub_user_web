@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class LoginService {
-  private readonly baseUrl = 'https://hoste-new-backend.onrender.com/api/users';
+  private readonly baseUrl = 'https://desktop-7rujm19.tailb99dfe.ts.net/api/users';
 
   constructor(private http: HttpClient) {}
 
@@ -45,6 +45,7 @@ export class LoginService {
   }
 
   // Verify registration OTP
+  
   verifyRegisterOtp(data: any): Observable<any> {
     return this.http.post<any>(
       `${this.baseUrl}/register/verify-otp`,

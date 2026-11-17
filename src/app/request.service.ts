@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class RequestService {
-  private baseUrl = 'http://localhost:3200/api/requests'; // ✅ your Express base route
+  private baseUrl = 'https://desktop-7rujm19.tailb99dfe.ts.net/api/requests'; // ✅ your Express base route
 
   constructor(private http: HttpClient) {}
 
