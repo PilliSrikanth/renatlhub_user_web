@@ -31,7 +31,7 @@ export class LoginService {
   // Replace this URL with the actual route defined in your backend.
   resendLoginOtp(body: { email: string }): Observable<any> {
     return this.http.post<any>(
-      `${this.baseUrl}/YOUR_LOGIN_RESEND_ENDPOINT`,
+      `${this.baseUrl}/register/resend-otp`,
       body
     );
   }
